@@ -1,15 +1,12 @@
-package client;
-
 import java.net.*; 
 import java.io.*;
-
-public class client {
+public class Client {
 	private Socket socket            = null; 
     private DataInputStream  input   = null; 
     private DataOutputStream out     = null; 
   
     // constructor to put IP address and port 
-    public client(String address, int port) 
+    public Client(String address, int port) 
     { 
         // establish a connection 
         try
@@ -64,7 +61,7 @@ public class client {
   
     public static void main(String args[]) 
     { 
-        client client1 = new client("127.0.0.1", 5000); 
+        Client client1 = new Client("172.17.48.85", 9876);
     } 
 
 }
