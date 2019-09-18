@@ -4,6 +4,7 @@ public class Client {
 	private Socket socket            = null; 
     private DataInputStream  input   = null; 
     private DataOutputStream out     = null; 
+    private DataInputStream din      = null;
   
     // constructor to put IP address and port 
     public Client(String address, int port) 
@@ -16,7 +17,7 @@ public class Client {
   
             // takes input from terminal 
             input  = new DataInputStream(System.in); 
-  
+            din = new DataInputStream(socket.getInputStream());
             // sends output to the socket 
             out    = new DataOutputStream(socket.getOutputStream()); 
         } 
@@ -38,7 +39,9 @@ public class Client {
             try
             { 
                 line = input.readLine(); 
-                out.writeUTF(line); 
+                out.writeUTF(line);
+                line = din.readUTF();
+                System.out.println(line);
             } 
             catch(IOException i) 
             { 
@@ -61,7 +64,7 @@ public class Client {
   
     public static void main(String args[]) 
     { 
-        Client client1 = new Client("172.17.48.85", 9876);
+        client client1 = new client("172.17.48.167", 9876); 
     } 
 
 }
