@@ -1,6 +1,9 @@
 # File system index files
 *.DS_Store
 
+# Eclipse Settings
+.settings/
+
 # Compiled class file
 *.class
 

@@ -29,19 +29,26 @@ public class SpringBootApp {
         DataInputStream ois = new DataInputStream(socket.getInputStream());
         //convert ObjectInputStream object to String
         DataOutputStream oos = new DataOutputStream(socket.getOutputStream());
+
+        DataInputStream input = new DataInputStream(System.in); 
+        String line = "";
+
         while(true){
             //convert ObjectInputStream object to String
             String message = ois.readUTF();
             System.out.println("Message Received: " + message);
             //create ObjectOutputStream object
             //write object to Socket
-            oos.writeUTF("Hi Client "+message);
+            line = input.readLine();
+
+            oos.writeUTF("Server says: " + line);
             //close resources
             //terminate the server if client sends exit request
-            if(message.equalsIgnoreCase("Over")) break;
+            if(line.equalsIgnoreCase("Over") || message.equalsIgnoreCase("Over")) break;
         }
         ois.close();
         oos.close();
+        input.close();
         socket.close();
         System.out.println("Shutting down Socket server!!");
         //close the ServerSocket object
