@@ -4,13 +4,17 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-public class User {
+public class UserTable {
 
 	@Id
 	private String id;
 	private String name;
 	
-	public User(String id, String name) {
+	public UserTable() {
+		
+	}
+	
+	public UserTable(String id, String name) {
 		this.id = id;
 		this.setName(name);
 	}
