@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
-Built-By: vikramsingh
-Build-Jdk: 10.0.1
+Built-By: Vishnu Y S
+Build-Jdk: 12.0.2
 Implementation-Title: PidginN
 Implementation-Version: 0.0.1-SNAPSHOT
 Implementation-Vendor-Id: OOAD
-Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
- ot-starter-parent/pidgin-server
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-boot
+ -starter-parent/pidgin-server
 Created-By: Maven Integration for Eclipse
 
