@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
-Built-By: Vishnu Y S
-Build-Jdk: 12.0.2
-Implementation-Title: Spring Boot Mavern Project Zero
+Built-By: vikramsingh
+Build-Jdk: 10.0.1
+Implementation-Title: PidginN
 Implementation-Version: 0.0.1-SNAPSHOT
-Implementation-Vendor-Id: com.vishalkushwaha.springbootstarter
-Implementation-URL: https://projects.spring.io/spring-boot/#/spring-boot
- -starter-parent/course-api
+Implementation-Vendor-Id: OOAD
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
+ ot-starter-parent/pidgin-server
 Created-By: Maven Integration for Eclipse
 
