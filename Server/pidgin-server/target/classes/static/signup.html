@@ -28,8 +28,8 @@
 
 	<header id="header" class="header header-hide">
 		<nav class="navbar navbar-expand-lg navbar-dark bg-primary py-0">
-			<a class="navbar-brand" href="#">
-				<img src="img/pigeon.png" width="40" height="30" class="d-inline-block align-top" alt="">
+			<a class="navbar-brand" href="#"> <img src="img/pigeon.png"
+				width="40" height="30" class="d-inline-block align-top" alt="">
 				Pidgin<span class="text-danger">N</span>
 			</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -60,53 +60,74 @@
 				</div>
 				<div class="row">
 					<div class="col-6 offset-3 align-self-center text-center">
+						<div class="alert alert-danger alert-dismissible" role="alert"
+							id="form-error" style="display: none;">
+							<strong id="error-msg">Please fill all the fields before
+								submitting!</strong>
+							<button type="button" class="close"
+								onclick="$('#form-error').slideUp();" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
 						<div class="form-group row">
-							<label for="email" class="col col-form-label text-left">Email ID:</label>
+							<label for="name" class="col col-form-label text-left">Name:</label>
 							<div class="col">
-								<input type="email" class="form-control" id="email">
+								<input type="text" class="form-control" id="name" required>
 							</div>
 						</div>
 						<div class="form-group row">
 							<label for="username" class="col col-form-label text-left">Username:</label>
 							<div class="col">
-								<input type="text" class="form-control" id="username">
+								<input type="text" class="form-control" id="username" required>
 							</div>
 						</div>
-						<div class="form-group row">
+						<div class="form-group row" id="email-group">
+							<label for="email" class="col col-form-label text-left">Email
+								ID:</label>
+							<div class="col">
+								<input type="email" class="form-control" id="email"
+									pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
+							</div>
+						</div>
+						<div class="form-group row passwords">
 							<label for="password" class="col col-form-label text-left">Enter
 								Password:</label>
 							<div class="col">
-								<input type="password" class="form-control" id="password">
+								<input type="password" class="form-control" id="password"
+									required>
 							</div>
 						</div>
-						<div class="form-group row">
+						<div class="form-group row passwords">
 							<label for="repassword" class="col col-form-label text-left">Confirm
 								Password:</label>
 							<div class="col">
-								<input type="password" class="form-control" id="repassword">
+								<input type="password" class="form-control" id="repassword"
+									required>
 							</div>
 						</div>
 						<div class="form-group row">
 							<label for="language" class="col col-form-label text-left">Preferred
 								Language:</label>
 							<div class="col">
-								<select class="form-control" id="language">
-									<option value="">English</option>
-									<option value="">French</option>
-									<option value="">German</option>
-									<option value="">Hindi</option>
-									<option value="">Spanish</option>
+								<select class="form-control" id="language" required>
+									<option value="en">English</option>
+									<option value="fr">French</option>
+									<option value="de">German</option>
+									<option value="hi">Hindi</option>
+									<option value="es">Spanish</option>
 								</select>
 							</div>
 						</div>
 						<div class="form-group row d-flex justify-content-center mt-3">
-							<button type="submit" class="btn btn-success border-0">Sign Up</button>
+							<button type="submit" class="btn btn-success border-0"
+								id="submit">Sign Up</button>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-
+	<script src="lib/jquery-3.4.1.min.js"></script>
+	<script src="js/signup.js"></script>
 </body>
 </html>
