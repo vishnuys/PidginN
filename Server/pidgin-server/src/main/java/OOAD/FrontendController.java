@@ -6,10 +6,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @EnableAutoConfiguration
 @Controller
-public class TestController {
+public class FrontendController {
  
     @RequestMapping("/test")
     public String viewHome() {
-        return "test.html";
+        return "error.html";
+    }
+    
+    @RequestMapping("/signup")
+    public String signUp() {
+        return "signup.html";
+    }
+    
+    @RequestMapping("/login")
+    public String loginPage() {
+        return "login.html";
     }
 }
