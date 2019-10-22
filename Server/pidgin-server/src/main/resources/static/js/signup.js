@@ -3,7 +3,8 @@ $("#submit").on(
 		function(e) {
 			e.preventDefault();
 			$('#form-error').slideUp();
-			var email = $("#email").val();
+			var name = $("#name").val();
+			var email = $("#email").val().toLowerCase();
 			var username = $("#username").val();
 			var password = $("#password").val();
 			var repassword = $("#repassword").val();
@@ -22,6 +23,39 @@ $("#submit").on(
 				$('#error-msg').text(
 						'Entered passwords do no match!');
 				$('#form-error').slideDown();
+			} else {
+				let data = {
+					'name': name,
+					'password': password,
+					'language': language,
+					'email': email,
+					'username': username
+				}
+				$.ajax({
+					url: '/addUser',
+					type: 'POST',
+					contentType:"application/json; charset=utf-8",
+					data: JSON.stringify(data),
+					success: (res) => {
+						Swal.fire(
+						  'Sign Up Successful!',
+						  'Please login to continue',
+						  'success'
+						).then((result) => {
+						  if (result.value) {
+						  	location.href = '/login';
+						  }
+						})
+					},
+					error: (e) => {
+						console.error(e.status, e.responseJSON.message);
+						if (e.status == 500 &&  e.responseJSON.message.includes('constraint')) {
+							$('#error-msg').text(
+									'Username or Email already taken.');
+							$('#form-error').slideDown();
+						}
+					}
+				});
 			}
 		});
 

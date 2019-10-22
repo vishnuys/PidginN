@@ -1,5 +1,6 @@
 package OOAD;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,27 +11,32 @@ public class UserTable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private String id;
+	private int id;
 	private String name;
 	private String password;
 	private String language;
+	@Column(unique=true)
 	private String email;
+	@Column(unique=true)
 	private String username;
 	
 	public UserTable() {
 		
 	}
 	
-	public UserTable(String id, String name) {
-		this.id = id;
+	public UserTable(String name, String password, String language, String email, String username) {
 		this.setName(name);
+		this.setPassword(password);
+		this.setEmail(email);
+		this.setLanguage(language);
+		this.setUsername(username);
 	}
 	
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	
