@@ -15,6 +15,7 @@ $("#submit").on(
 					|| repassword == '' || language == '') {
 				$('#error-msg').text(
 						'Please fill all the fields before submitting!');
+				$('#form-error').slideDown();
 			} else if (!pattern.test(email)) {
 				$('#error-msg').text(
 						'Please enter a valid Email ID!');

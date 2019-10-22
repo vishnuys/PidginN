@@ -52,26 +52,37 @@
 		<div class="hero-container">
 			<h1>Login to PidginN</h1>
 			<h2>Business Communication made easy</h2>
+			<div class="alert alert-danger alert-dismissible" role="alert"
+				id="form-error" style="display: none;">
+				<strong id="error-msg">Please fill all the fields before
+					submitting!</strong>
+				<button type="button" class="close"
+					onclick="$('#form-error').slideUp();" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
 			<div class="form-group row">
 				<label for="username" class="col-4 col-form-label"><b>Username:</b></label>
 				<div class="col-8">
-					<input type="text" class="form-control" id="username">
+					<input type="text" class="form-control" id="username" required>
 				</div>
 			</div>
 			<div class="form-group row">
 				<label for="password" class="col-4 col-form-label"><b>Password:</b></label>
 				<div class="col-8">
-					<input type="password" class="form-control" id="password">
+					<input type="password" class="form-control" id="password" required>
 				</div>
 			</div>
 			<div class="form-group row">
-				<button class="btn btn-success text-white border-0">Login</button>
+				<button class="btn btn-success text-white border-0" id="login-btn">Login</button>
 			</div>
 		</div>
 	</section>
 
 
-	<script src="js/main.js"></script>
+	<script src="lib/jquery-3.4.1.min.js"></script>
+	<script src="lib/sweetalert2.js"></script>
+	<script src="js/login.js"></script>
 
 </body>
 </html>
