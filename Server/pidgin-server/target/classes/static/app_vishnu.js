@@ -1,15 +1,19 @@
 var ws;
+var username = "vishal"
 function setConnected(connected) {
 	$("#connect").prop("disabled", connected);
 	$("#disconnect").prop("disabled", !connected);
 }
 
 function connect() {
-	ws = new WebSocket('ws://localhost:8080/user');
+	ws = new WebSocket('ws://localhost:8080/' + username);
 	ws.onmessage = function(data) {
-		helloWorld(data.data);
+		addToPage(data.data);
 	}
 	setConnected(true);
+	
+	
+	ws.send("Hi!");
 }
 
 function disconnect() {
@@ -22,26 +26,23 @@ function disconnect() {
 
 function sendData() {
 	var data = JSON.stringify({
-		'user' : $("#user").val()
+		'user' : $("#send-text").val()
 	})
 	ws.send(data);
 }
 
-function helloWorld(message) {
-	$("#helloworldmessage").append("<br>" + message + "");
+function addToPage(message) {
+	console.log(message);
 }
 
 $(function() {
 	$("form").on('submit', function(e) {
 		e.preventDefault();
 	});
-	$("#connect").click(function() {
+	$(document).ready(function(e) {
 		connect();
-	});
-	$("#disconnect").click(function() {
-		disconnect();
-	});
-	$("#send").click(function() {
+	})
+	$("#send-btn").click(function() {
 		sendData();
 	});
 });
