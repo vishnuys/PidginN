@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="OOAD">
 <head>
 <meta charset="utf-8">
 <title>PidginN</title>
@@ -17,14 +17,14 @@
 
 <!-- Bootstrap css -->
 <link href="lib/bootstrap.min.css" rel="stylesheet">
+<link href="lib/font-awesome.min.css" rel="stylesheet">
 
 <!-- Main Stylesheet File -->
 <link href="css/style.css" rel="stylesheet">
 
 </head>
 
-<body>
-
+<body ng-controller="pidgin" ng-cloak>
 	<header id="header" class="header header-hide">
 		<nav class="navbar navbar-expand-lg navbar-dark bg-primary py-0">
 			<a class="navbar-brand" href="#"> <img src="img/pigeon.png"
@@ -48,7 +48,14 @@
 		</nav>
 	</header>
 
-	<section id="hero" class="wow fadeIn">
+	<div ng-show="loading">
+		<div class="text-center mt-5">
+			<h1><i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i></h1>
+			<h4>Loading</h4>
+		</div>
+	</div>
+
+	<section ng-hide="loading" id="hero" class="wow fadeIn">
 		<div class="container-fluid mb-3">
 			<div class="row mb-3">
 				<div class="col-3 p-3">
@@ -114,6 +121,9 @@
 
 
 	<script src="lib/jquery-3.4.1.min.js"></script>
+	<script src="lib/popper.min.js"></script>
+	<script src="lib/bootstrap.min.js"></script>
+	<script src="lib/angular.min.js"></script>
 	<script src="lib/sweetalert2.js"></script>
 	<script src="js/chat.js"></script>
 
