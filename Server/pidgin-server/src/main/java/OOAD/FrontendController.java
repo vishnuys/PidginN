@@ -22,4 +22,9 @@ public class FrontendController {
     public String loginPage() {
         return "login.html";
     }
+    
+    @RequestMapping("/chat")
+    public String chatPage() {
+        return "chat.html";
+    }
 }
