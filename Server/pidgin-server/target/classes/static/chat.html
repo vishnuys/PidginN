@@ -24,7 +24,8 @@
 
 </head>
 
-<body ng-controller="pidgin" ng-cloak>
+<body ng-controller="pidgin" ng-init="ready()" ng-cloak
+	class="chat-body">
 	<header id="header" class="header header-hide">
 		<nav class="navbar navbar-expand-lg navbar-dark bg-primary py-0">
 			<a class="navbar-brand" href="#"> <img src="img/pigeon.png"
@@ -39,10 +40,9 @@
 
 			<div class="collapse navbar-collapse" id="navbarColor01">
 				<ul class="navbar-nav ml-auto">
-					<li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-					<li class="nav-item"><a class="nav-link" href="/signup">Sign
-							Up</a></li>
-					<li class="nav-item active"><a class="nav-link" href="#">Login</a></li>
+					<li class="nav-item"><a class="nav-link" href="#">Add User</a></li>
+					<li class="nav-item"><a class="nav-link" href="#"
+						ng-click="logout()">Logout</a></li>
 				</ul>
 			</div>
 		</nav>
@@ -50,72 +50,100 @@
 
 	<div ng-show="loading">
 		<div class="text-center mt-5">
-			<h1><i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i></h1>
+			<h1>
+				<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+			</h1>
 			<h4>Loading</h4>
 		</div>
 	</div>
 
 	<section ng-hide="loading" id="hero" class="wow fadeIn">
-		<div class="container-fluid mb-3">
-			<div class="row mb-3">
+		<div class="container-fluid">
+			<div class="row">
 				<div class="col-3 p-3">
-					<div class="list-group mt-5">
-						<a href="#" class="list-group-item list-group-item-action active">
+					<div class="input-group mb-3">
+						<div class="input-group-append">
+							<span class="input-group-text" id="basic-addon2"><i
+								class="fa fa-search"></i></span>
+						</div>
+						<input type="text" class="form-control" placeholder="Search"
+							ng-model='connections_search'>
+					</div>
+					<div class="list-group nav mt-5">
+						<a ng-repeat="user in connections | filter : connections_search"
+							href="#{{user.username}}_tabpane"
+							class="nav-link list-group-item list-group-item-action"
+							ng-class="{'active': $first}" id="{{user.username}}_tab"
+							data-toggle="tab" href="#{{user.username}}_tabpane" role="tab"
+							aria-controls="{{user.username}}_tabpane"
+							aria-selected="{{$first ? 'true' : 'false'}}"
+							ng-click="changeUser(user.username)">
 							<div class="d-flex w-100 justify-content-between">
-								<h5 class="text-white mb-1">Howard</h5>
-								<small>3 hours ago</small>
-							</div> <small>Hola amigo, como estas?</small>
-						</a> <a href="#" class="list-group-item list-group-item-action">
+								<h5 class="mb-1">{{user.name}}</h5>
+								<small>{{user.lastUpdated}}</small>
+							</div> <small>{{user.lastMessage | limitTo:
+								30}}{{user.lastMessage.length > 30 ? '...' : ''}}</small>
+						</a> <a ng-hide="connections.length > 0" href="#"
+							class="list-group-item disabled">
 							<div class="d-flex w-100 justify-content-between">
-								<h5 class="mb-1">Barney</h5>
-								<small class="text-muted">8 hours ago</small>
-							</div> <small class="text-muted">Buenos Dias, mi amor.</small>
-						</a> <a href="#" class="list-group-item list-group-item-action">
-							<div class="d-flex w-100 justify-content-between">
-								<h5 class="mb-1">Joey</h5>
-								<small class="text-muted">Yesterday</small>
-							</div> <small class="text-muted">Necesito un boli pronto.</small>
+								<h5 class="mb-1">No connections found</h5>
+								<small></small>
+							</div> <small>Add connections to continue</small>
 						</a>
 					</div>
 				</div>
 				<div class="col-9">
 					<div class="col">
-						<div class="card h-100 mt-5">
-							<div class="card-body">
-								<div
-									class="d-inline-block bg-light rounded rounded-pill p-3 border">This
-									needs to be done immediately</div>
-								<br>
-								<div
-									class="d-inline-block bg-secondary text-white rounded rounded-pill p-3">Esto
-									debe hacerse de inmediato</div>
+						<div class="tab-content">
+							<div class="tab-pane" ng-repeat="user in connections"
+								ng-class="{'active': $first}" id="{{user.username}}_tabpane"
+								role="tabpanel" aria-labelledby="{{user.username}}_tab">
+								<div class="card h-100 mt-5">
+									<div class="card-header h3">{{user.name}}</div>
+									<div class="p-2" id="chatbox">
+										<div class="card-body p-0 mb-2"
+											ng-repeat="msg in user.chatMessages"
+											ng-class="{'text-right': msg.sender == username}">
+											<div
+												class="d-inline-block bg-light rounded rounded-pill p-2 border">{{msg.message}}</div>
+											<br>
+											<div
+												class="d-inline-block bg-secondary text-white rounded rounded-pill p-2">{{msg.translatedMessage}}</div>
+										</div>
+									</div>
+									<div class="card-footer">
+										<div class="input-group">
+											<input id="send-text" type="text" class="form-control"
+												placeholder="Enter message to send..."
+												ng-model="messageToSend">
+											<div class="input-group-append">
+												<button class="btn btn-success" type="button" id="send-btn"
+													ng-click="sendMessage(messageToSend)">Send</button>
+											</div>
+										</div>
+									</div>
+								</div>
 							</div>
-							<div class="card-body text-right">
-								<div
-									class="d-inline-block bg-light rounded rounded-pill p-3 border">Yes,
-									I'm on it. I'll send it as soon as I am done.</div>
-								<br>
-								<div
-									class="d-inline-block bg-secondary text-white rounded rounded-pill p-3">Sí,
-									estoy en eso. Lo enviaré tan pronto como termine.</div>
-							</div>
-							<div class="card-footer">
-								<div class="input-group">
-									<input id="send-text" type="text" class="form-control"
-										placeholder="Enter message to send...">
-									<div class="input-group-append">
-										<button class="btn btn-success" type="button"
-											id="send-btn">Send</button>
+							<div ng-hide="connections.length > 0"
+								class="tab-pane active bg-secondary" id="" role="tabpanel"
+								aria-labelledby="">
+								<div class="card h-100 mt-5">
+									<div class="card-footer">
+										<div class="input-group">
+											<input id="send-text" type="text" class="form-control"
+												placeholder="Enter message to send..." readonly>
+											<div class="input-group-append">
+												<button class="btn btn-success disabled" type="button">Send</button>
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-					<div class="row align-items-end mt-5">
-						<div class="col mt-auto"></div>
-					</div>
 				</div>
 			</div>
+		</div>
 	</section>
 	<!-- #hero -->
 

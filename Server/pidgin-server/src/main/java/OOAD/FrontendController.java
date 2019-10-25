@@ -27,4 +27,9 @@ public class FrontendController {
     public String chatPage() {
         return "chat.html";
     }
+    
+    @RequestMapping("/create")
+    public String createPage() {
+        return "create.html";
+    }
 }
