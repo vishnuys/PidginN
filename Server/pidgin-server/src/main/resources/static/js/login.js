@@ -1,3 +1,10 @@
+function setCookie(cname, cvalue, exdays) {
+  var d = new Date();
+  d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+  var expires = "expires="+d.toUTCString();
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
 $('#login-btn').on('click', function(e) {
 	var username = $("#username").val();
 	var password = $("#password").val();
@@ -12,6 +19,7 @@ $('#login-btn').on('click', function(e) {
 			data: {'username': username, 'password': password},
 			success: (msg) => {
 				if(msg == 'Success') {
+					setCookie('username', username);
 					Swal.fire(
 					  'Login Successful!',
 					  '',
