@@ -11,6 +11,11 @@ body {
 .signup-body {
   padding-top: 100px;
 }
+
+.chat-body {
+  padding-top: 50px; 
+}
+
 h1, h2, h3, h4, h5, h6 {
   margin: 0;
 }
@@ -283,6 +288,6 @@ span {
 }
 
 #chatbox {
-  max-height: 80vh;
+  max-height: 65vh;
   overflow-y: auto;
 }
