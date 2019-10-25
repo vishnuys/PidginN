@@ -3,6 +3,7 @@ package OOAD.Entities;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
@@ -10,10 +11,12 @@ import javax.persistence.ManyToOne;
 public class GroupMembers {
 	
 	//attributes
+	@Id
+	private int groupMemebersId;
 	@ManyToOne
     @JoinColumn
     private UserDetails groupMembers_GroupId;
-	
+
 	@ManyToOne
     @JoinColumn
     private UserDetails userDetails_MappedUserId;
@@ -28,9 +31,11 @@ public class GroupMembers {
 
 	
 	public GroupMembers() {}
-	public GroupMembers(UserDetails groupMembers_GroupId, UserDetails userDetails_MappedUserId, Boolean isAdmin,
-			UserDetails userDetails_UserAddedBy, Date userAddedOn) {
+
+	public GroupMembers(int groupMemebersId, UserDetails groupMembers_GroupId, UserDetails userDetails_MappedUserId,
+			Boolean isAdmin, UserDetails userDetails_UserAddedBy, Date userAddedOn) {
 		super();
+		this.groupMemebersId = groupMemebersId;
 		this.groupMembers_GroupId = groupMembers_GroupId;
 		this.userDetails_MappedUserId = userDetails_MappedUserId;
 		this.isAdmin = isAdmin;
@@ -38,8 +43,16 @@ public class GroupMembers {
 		this.userAddedOn = userAddedOn;
 	}
 
+
+
 	public UserDetails getGroupMembers_GroupId() {
 		return groupMembers_GroupId;
+	}
+	public int getGroupMemebersId() {
+		return groupMemebersId;
+	}
+	public void setGroupMemebersId(int groupMemebersId) {
+		this.groupMemebersId = groupMemebersId;
 	}
 
 	public void setGroupMembers_GroupId(UserDetails groupMembers_GroupId) {

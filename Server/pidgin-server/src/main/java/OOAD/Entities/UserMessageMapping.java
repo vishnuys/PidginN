@@ -3,6 +3,7 @@ package OOAD.Entities;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
@@ -10,9 +11,13 @@ import javax.persistence.ManyToOne;
 public class UserMessageMapping {
 
 //attributes
+	
+	@Id
+	private int userMessageMappingId;
+
 	@ManyToOne
     @JoinColumn
-    private UserDetails userMessageMapping_TranslatedMessageId;
+    private UserDetails UserMessageMapping_TranslatedMessageId;
 	
 	@ManyToOne
     @JoinColumn
@@ -42,13 +47,13 @@ public class UserMessageMapping {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
-	public UserMessageMapping(UserDetails userMessageMapping_TranslatedMessageId,
+	public UserMessageMapping(int userMessageMappingId, UserDetails UserMessageMapping_TranslatedMessageId,
 			UserDetails userMessageMapping_SenderUserId, UserDetails userMessageMapping_RecieverUserId,
 			Date messageSentTimestamp, Date messageRecievedTimestamp, Boolean messageReadByReciever,
 			Boolean isDirectMessage, UserDetails userMessageMapping_GroupId, Boolean isDeleted) {
 		super();
-		this.userMessageMapping_TranslatedMessageId = userMessageMapping_TranslatedMessageId;
+		this.userMessageMappingId = userMessageMappingId;
+		this.UserMessageMapping_TranslatedMessageId = UserMessageMapping_TranslatedMessageId;
 		this.userMessageMapping_SenderUserId = userMessageMapping_SenderUserId;
 		this.userMessageMapping_RecieverUserId = userMessageMapping_RecieverUserId;
 		this.messageSentTimestamp = messageSentTimestamp;
@@ -59,12 +64,22 @@ public class UserMessageMapping {
 		this.isDeleted = isDeleted;
 	}
 
-	public UserDetails getUserMessageMapping_TranslatedMessageId() {
-		return userMessageMapping_TranslatedMessageId;
+
+	public int getUserMessageMappingId() {
+		return userMessageMappingId;
 	}
 
-	public void setUserMessageMapping_TranslatedMessageId(UserDetails userMessageMapping_TranslatedMessageId) {
-		this.userMessageMapping_TranslatedMessageId = userMessageMapping_TranslatedMessageId;
+	public void setUserMessageMappingId(int userMessageMappingId) {
+		this.userMessageMappingId = userMessageMappingId;
+	}
+
+
+	public UserDetails getUserMessageMapping_TranslatedMessageId() {
+		return UserMessageMapping_TranslatedMessageId;
+	}
+
+	public void setUserMessageMapping_TranslatedMessageId(UserDetails UserMessageMapping_TranslatedMessageId) {
+		this.UserMessageMapping_TranslatedMessageId = UserMessageMapping_TranslatedMessageId;
 	}
 
 	public UserDetails getUserMessageMapping_SenderUserId() {
