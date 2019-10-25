@@ -281,3 +281,8 @@ span {
 .bg-secondary {
   background-color: #bbb!important;
 }
+
+#chatbox {
+  max-height: 80vh;
+  overflow-y: auto;
+}
