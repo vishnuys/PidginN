@@ -77,7 +77,7 @@
 							data-toggle="tab" href="#{{user.username}}_tabpane" role="tab"
 							aria-controls="{{user.username}}_tabpane"
 							aria-selected="{{$first ? 'true' : 'false'}}"
-							ng-click="currentUser = user.username">
+							ng-click="changeUser(user.username)">
 							<div class="d-flex w-100 justify-content-between">
 								<h5 class="mb-1">{{user.name}}</h5>
 								<small>{{user.lastUpdated}}</small>

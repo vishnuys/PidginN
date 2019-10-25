@@ -11,41 +11,80 @@ app
 							$scope.websocket = '';
 							$scope.connections = [
 									{
-										username : 'g',
+										username : 'h',
 										name : 'Howard',
-										lastMessage : 'PLEASE COMPLETE IT SOON',
+										lastMessage : "Yes, I'm on it. I'll send it as soon as I am done.",
 										lastUpdated : '3 days ago',
+										chatMessages : [
+												{
+													sender : 'h',
+													receiver : 'm',
+													message : 'यह तुरंत किए जाने की आवश्यकता है',
+													translatedMessage : 'This needs to be done immediately',
+												},
+												{
+													sender : 'm',
+													receiver : 'h',
+													message : "Yes, I'm on it. I'll send it as soon as I am done.",
+													translatedMessage : 'हां, मैं इस पर कायम हूं। मैं जैसे ही करूंगा, भेज दूंगा।'
+												} ]
+									},
+									{
+										username : 'n',
+										name : 'Manuel',
+										lastMessage : "Yes, I'm on it. I'll send it as soon as I am done.",
+										lastUpdated : '4 days ago',
+										chatMessages : [
+												{
+													sender : 'n',
+													receiver : 'm',
+													message : "Esto debe hacerse de inmediato",
+													translatedMessage : 'This needs to be done immediately',
+												},
+												{
+													sender : 'm',
+													receiver : 'n',
+													message : "Yes, I'm on it. I'll send it as soon as I am done.",
+													translatedMessage : 'Sí, estoy en eso. Lo enviaré tan pronto como termine.'
+												} ]
+									},
+									{
+										username : 'g',
+										name : 'George',
+										lastMessage : "Yes, I'm on it. I'll send it as soon as I am done.",
+										lastUpdated : '5 days ago',
 										chatMessages : [
 												{
 													sender : 'g',
 													receiver : 'm',
-													message : 'Esto debe hacerse de inmediato',
+													message : "Dies muss sofort erfolgen",
 													translatedMessage : 'This needs to be done immediately',
 												},
 												{
 													sender : 'm',
 													receiver : 'g',
 													message : "Yes, I'm on it. I'll send it as soon as I am done.",
-													translatedMessage : 'Sí, estoy en eso. Lo enviaré tan pronto como termine.'
+													translatedMessage : 'Ja, ich bin dabei. Ich werde es senden, sobald ich fertig bin.'
 												} ]
 									},
 									{
-										username : 'n',
-										name : 'Barney',
-										lastMessage : 'PLEASE COMPLETE IT SOON',
-										lastUpdated : '4 days ago'
-									},
-									{
-										username : 'joey',
-										name : 'Joey',
-										lastMessage : 'PLEASE COMPLETE IT SOON',
-										lastUpdated : '5 days ago'
-									},
-									{
-										username : 'michael',
-										name : 'Michael',
-										lastMessage : 'PLEASE COMPLETE IT SOON',
-										lastUpdated : '6 days ago'
+										username : 'k',
+										name : 'Karen',
+										lastMessage : "Yes, I'm on it. I'll send it as soon as I am done.",
+										lastUpdated : '6 days ago',
+										chatMessages : [
+												{
+													sender : 'k',
+													receiver : 'm',
+													message : "ಇದನ್ನು ತಕ್ಷಣ ಮಾಡಬೇಕಾಗಿದೆ",
+													translatedMessage : 'This needs to be done immediately',
+												},
+												{
+													sender : 'm',
+													receiver : 'k',
+													message : "Yes, I'm on it. I'll send it as soon as I am done.",
+													translatedMessage : 'ಹೌದು, ನಾನು ಅದರ ಮೇಲೆ ಇದ್ದೇನೆ. ನಾನು ಮುಗಿದ ತಕ್ಷಣ ಅದನ್ನು ಕಳುಹಿಸುತ್ತೇನೆ.'
+												} ]
 									} ];
 
 							$scope.currentUser = $scope.connections[0].username;
@@ -73,40 +112,18 @@ app
 								$scope.connect();
 							};
 
-							function setConnected(connected) {
-								$("#connect").prop("disabled", connected);
-								$("#disconnect").prop("disabled", !connected);
-							}
-
 							$scope.connect = function() {
 								$scope.websocket = new WebSocket(
 										'ws://localhost:8080/chat/'
 												+ $scope.username);
 								$scope.websocket.onmessage = function(data) {
-									addToPage(data.data);
+
 								}
-								setConnected(true);
 								$scope.loading = false;
 							}
 
-							function disconnect() {
-								if (ws != null) {
-									$scope.websocket.close();
-								}
-								setConnected(false);
-								console
-										.log("Websocket is in disconnected state");
-							}
-
-							function sendData() {
-								var data = JSON.stringify({
-									'user' : $("#send-text").val()
-								})
-								$scope.websocket.send(data);
-							}
-
-							function addToPage(message) {
-								console.log(message);
+							$scope.changeUser = function(username) {
+								$scope.currentUser = username;
 							}
 
 							$scope.getUserIndex = function(username) {
@@ -138,6 +155,8 @@ app
 														.getUserIndex($scope.currentUser);
 												$scope.connections[index].chatMessages
 														.push(data);
+												$scope.connections[index].lastMessage = msg;
+												$scope.connections[index].lastUpdated = 'Today';
 												$("#chatbox")
 														.animate(
 																{
