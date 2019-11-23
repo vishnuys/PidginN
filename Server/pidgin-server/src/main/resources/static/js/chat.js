@@ -106,7 +106,6 @@ app.controller('pidgin', ['$scope', '$http', function($scope, $http) {
 		$scope.connect();
 	};
 
-<<<<<<< Updated upstream
 	$scope.connect = function() {
 		$scope.websocket = new WebSocket(
 			'ws://localhost:8080/chat/'
@@ -116,10 +115,6 @@ app.controller('pidgin', ['$scope', '$http', function($scope, $http) {
 		}
 		$scope.loading = false;
 	}
-=======
-							
-							}
->>>>>>> Stashed changes
 
 	$scope.changeUser = function(username) {
 		$scope.currentUser = username;
