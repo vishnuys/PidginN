@@ -6,9 +6,9 @@ public class UserMessageMapping {
 
 	private int TranslatedMessageId;
 	
-    private int SenderUserId;
+    public int SenderUserId;
 	
-    private int RecieverUserId;
+    public int RecieverUserId;
 	
 	private Date messageSentTimestamp;
 	
@@ -18,7 +18,7 @@ public class UserMessageMapping {
 	
 	private Boolean isDirectMessage;
 	
-    private int GroupId;
+    public int GroupId;
 	
     
     

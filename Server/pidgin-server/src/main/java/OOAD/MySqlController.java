@@ -37,6 +37,51 @@ public class MySqlController {
     private EntityManager entityManager;
 	
 	//methods
+	@RequestMapping(method = RequestMethod.POST, value="/checkusercreds")
+	public Boolean CheckUserCreds(@RequestBody UserDetails usr) {
+		
+		StoredProcedureQuery query = entityManager.createStoredProcedureQuery("checkusercreds"); 
+
+        //Declare the parameters in the same order
+        query.registerStoredProcedureParameter(1, String.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter(2, String.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter(3, Boolean.class, ParameterMode.OUT);
+
+
+        //Pass the parameter values
+        query.setParameter(1, usr.getUsername());
+        query.setParameter(2, usr.getPassword());
+        
+        Boolean isValid = (Boolean) query.getOutputParameterValue(3);
+
+        //Execute query
+        query.execute();
+		return isValid;
+
+	}
+	
+	@RequestMapping(method = RequestMethod.POST, value="/fetchloggedinuserdetails")
+	public UserDetails FetchLoggedInUserDetails(@RequestBody String username) {
+		StoredProcedureQuery query = entityManager.createStoredProcedureQuery("fetchloggedinuserdetails");
+		
+		query.registerStoredProcedureParameter(1, String.class, ParameterMode.IN);
+		query.setParameter(1, username);
+
+        List<Object[]> s = query.getResultList();
+        UserDetails usrdet = null;
+        for (int i = 0; i < s.size(); i++) {
+			Object o[] = s.get(i);
+			usrdet = new UserDetails();
+			usrdet.setUserID((int)o[0]);
+			usrdet.setUsername((String)o[1]);
+			usrdet.setFirstName((String)o[2]);
+			usrdet.setLastName((String)o[3]);
+			usrdet.setPreferredLanguage((String)o[4]);
+			usrdet.setContactNo((String)o[5]);
+		}
+        return usrdet;
+		
+	}
 	
 	@RequestMapping(method = RequestMethod.POST, value="/insertuser")
 	public Boolean InserUser(@RequestBody UserDetails usr) {
@@ -81,46 +126,39 @@ public class MySqlController {
 		return true;
 	}
 	
-	//not working
 	@RequestMapping(method = RequestMethod.POST, value="/savemessage")
-	public Boolean SaveMessage(@RequestBody JSONObject a) {
+	public Boolean SaveMessage(@RequestBody Message message) {
 		
-		StoredProcedureQuery query = entityManager.createStoredProcedureQuery("add_connection"); 
-		JSONObject jsonTranslatedMessage = null,jsonUserMessageMapping = null;
-		System.out.println(a);
-		try {
-			jsonTranslatedMessage = a.getJSONObject("translatedMessage");
-			jsonUserMessageMapping = a.getJSONObject("userMessageMapping");
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		System.out.println(jsonTranslatedMessage);
-		System.out.println(jsonUserMessageMapping);
+		StoredProcedureQuery query = entityManager.createStoredProcedureQuery("savemessage"); 		
 		
 		
 		
-		TranslatedMessage translatedMessage = new TranslatedMessage();
-		UserMessageMapping userMessageMapping = new UserMessageMapping();
+		TranslatedMessage translatedMessage = message.translatedMessage;
+		System.out.println(message.userMessageMapping.getIsDirectMessage());
+		UserMessageMapping userMessageMapping = message.userMessageMapping;
+		userMessageMapping.setSenderUserId(message.userMessageMapping.SenderUserId);
+		userMessageMapping.setRecieverUserId(message.userMessageMapping.RecieverUserId);
+		userMessageMapping.setGroupId(message.userMessageMapping.GroupId);
+
         //Declare the parameters in the same order
-//        query.registerStoredProcedureParameter(1, Integer.class, ParameterMode.IN);
-//        query.registerStoredProcedureParameter(2, Integer.class, ParameterMode.IN);
-//        query.registerStoredProcedureParameter(3, Boolean.class, ParameterMode.IN);
-//        query.registerStoredProcedureParameter(4, Integer.class, ParameterMode.IN);
-//        query.registerStoredProcedureParameter(5, String.class, ParameterMode.IN);
-//        query.registerStoredProcedureParameter(6, String.class, ParameterMode.IN);
-//        query.registerStoredProcedureParameter(7, String.class, ParameterMode.IN);
-//
-//        //Pass the parameter values
-//        query.setParameter(1, userMessageMapping.getSenderUserId());
-//        query.setParameter(2, userMessageMapping.getRecieverUserId());
-//        query.setParameter(3, userMessageMapping.getIsDirectMessage());
-//        query.setParameter(4, userMessageMapping.getGroupId());
-//        query.setParameter(5, translatedMessage.getCultureCode());
-//        query.setParameter(6, translatedMessage.getSenderMessage());
-//        query.setParameter(7, translatedMessage.getTranslatedMessage());
-//        //Execute query
-//        query.execute();
+        query.registerStoredProcedureParameter(1, Integer.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter(2, Integer.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter(3, Boolean.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter(4, Integer.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter(5, String.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter(6, String.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter(7, String.class, ParameterMode.IN);
+        
+        //Pass the parameter values
+        query.setParameter(1, userMessageMapping.getSenderUserId());
+        query.setParameter(2, userMessageMapping.getRecieverUserId());
+        query.setParameter(3, userMessageMapping.getIsDirectMessage());
+        query.setParameter(4, userMessageMapping.getGroupId());
+        query.setParameter(5, translatedMessage.getCultureCode());
+        query.setParameter(6, translatedMessage.getSenderMessage());
+        query.setParameter(7, translatedMessage.getTranslatedMessage());
+        //Execute query
+        query.execute();
 		return true;
 	}
 	
@@ -145,8 +183,8 @@ public class MySqlController {
 		}
         return lstusers;
     }
+
 	
-	//not working
 	@RequestMapping(method = RequestMethod.POST, value="/fetchallconnections")
     public List<UserDetails> FetchAllConnections(@RequestBody Integer inuserID) {
 

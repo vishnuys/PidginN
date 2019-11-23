@@ -19,41 +19,6 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"username\" : \"abc\",\n\t\"firstName\": \"ahdj\",\n\t\"lastName\" :\"jsja\",\n\t\"password\" : \"sdhajkhdahsdjkas\",\n\t\"preferredLanguage\":\"en-US\",\n\t\"contactNo\":\"shkahk\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:8080/insertuser",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"insertuser"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "http://localhost:8080/insertuser",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
 					"raw": "{\n\t\"username\" : \"asdasasd\",\n\t\"firstName\": \"ahdj\",\n\t\"lastName\" :\"jsja\",\n\t\"password\" : \"sdhajkhdahsdjkas\",\n\t\"preferredLanguage\":\"en-US\",\n\t\"contactNo\":\"shkahk\"\n}",
 					"options": {
 						"raw": {
@@ -163,6 +128,146 @@
 					"port": "8080",
 					"path": [
 						"fetchallconnections"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/savemessage",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"translatedMessage\": {\n\t\t\"cultureCode\":\"en-US\",\n\t\t\"senderMessage\":\"TestMSg\",\n\t\t\"translatedMessage\" :\"sjakdakdshkasdhkajs\"\n\t\t\n\t},\n\t\"userMessageMapping\" : {\n\t\t\"SenderUserId\": 1,\n\t\t\"RecieverUserId\": 2,\n\t\t\"GroupId\":0,\n\t\t\"isDirectMessage\":true\n\t\t\n\t}\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/savemessage",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"savemessage"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/fetchloggedinuserdetails",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\" : \"abc\",\n\t\"password\": \"sdhajkhdahsdjkas\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/checkusercreds",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"checkusercreds"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/fetchloggedinuserdetails",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\" : \"abc\",\n\t\"password\": \"sdhajkhdahsdjkas\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/fetchloggedinuserdetails",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"fetchloggedinuserdetails"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/fetchmessageforuser",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"userID\" : 1,\n\t\"connectionUserID\": 2\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/fetchmessageforuser",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"fetchmessageforuser"
 					]
 				}
 			},

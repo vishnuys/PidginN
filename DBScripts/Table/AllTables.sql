@@ -29,9 +29,9 @@ CREATE TABLE Group1 (
     CreatedBy INT,
     CreatedOn TIMESTAMP,
     UpdatedBy INT,
-    UpdatedOn TIMESTAMP,
-    FOREIGN KEY (CreatedBy) REFERENCES UserDetails(UserID),
-	FOREIGN KEY (UpdatedBy) REFERENCES UserDetails(UserID)
+    UpdatedOn TIMESTAMP
+--    FOREIGN KEY (CreatedBy) REFERENCES UserDetails(UserID),
+-- FOREIGN KEY (UpdatedBy) REFERENCES UserDetails(UserID)
 );
 
 CREATE TABLE GroupMembers (
@@ -41,8 +41,8 @@ CREATE TABLE GroupMembers (
     IsAdmin BOOL,
     UserAddedBy INT,
     UserAddedOn TIMESTAMP,
-     FOREIGN KEY (GroupId) REFERENCES Group1(GroupId),
-	FOREIGN KEY (MappedUserIds) REFERENCES UserDetails(UserID)
+     FOREIGN KEY (GroupId) REFERENCES Group1(GroupId)
+-- FOREIGN KEY (MappedUserIds) REFERENCES UserDetails(UserID)
 );
 
 CREATE TABLE UserMessageMapping(
@@ -55,8 +55,7 @@ CREATE TABLE UserMessageMapping(
     IsDirectMessage BOOL,
     GroupId INT,
     IsDeleted BOOL,
-    FOREIGN KEY (SenderUserId) REFERENCES UserDetails(UserID),
-	FOREIGN KEY (GroupId) REFERENCES Group1(GroupId)    
+    FOREIGN KEY (SenderUserId) REFERENCES UserDetails(UserID)  
 );
 
 CREATE TABLE  TranslatedMessage(
@@ -64,7 +63,7 @@ CREATE TABLE  TranslatedMessage(
     CultureCode VARCHAR(10),
     SenderMessage NVARCHAR(5000),
     TranslatedMessage NVARCHAR(5000),
-	TranslatedMessageID,
+	TranslatedMessageID INT,
 	FOREIGN KEY (TranslatedMessageID) REFERENCES UserMessageMapping(TranslatedMessageID) 
 );
 
