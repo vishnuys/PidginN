@@ -2,30 +2,13 @@ package OOAD.Entities;
 
 import java.util.Date;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
-@Entity
 public class UserMessageMapping {
 
-//attributes
+	private int TranslatedMessageId;
 	
-	@Id
-	private int userMessageMappingId;
-
-	@ManyToOne
-    @JoinColumn
-    private UserDetails UserMessageMapping_TranslatedMessageId;
+    public int SenderUserId;
 	
-	@ManyToOne
-    @JoinColumn
-    private UserDetails userMessageMapping_SenderUserId;
-	
-	@ManyToOne
-    @JoinColumn
-    private UserDetails userMessageMapping_RecieverUserId;
+    public int RecieverUserId;
 	
 	private Date messageSentTimestamp;
 	
@@ -35,11 +18,139 @@ public class UserMessageMapping {
 	
 	private Boolean isDirectMessage;
 	
-	@ManyToOne
-    @JoinColumn
-    private UserDetails userMessageMapping_GroupId;
+    public int GroupId;
 	
+    
+    
+	public UserMessageMapping(int translatedMessageId, int senderUserId, int recieverUserId, Date messageSentTimestamp,
+			Date messageRecievedTimestamp, Boolean messageReadByReciever, Boolean isDirectMessage, int groupId,
+			Boolean isDeleted) {
+		super();
+		TranslatedMessageId = translatedMessageId;
+		SenderUserId = senderUserId;
+		RecieverUserId = recieverUserId;
+		this.messageSentTimestamp = messageSentTimestamp;
+		this.messageRecievedTimestamp = messageRecievedTimestamp;
+		this.messageReadByReciever = messageReadByReciever;
+		this.isDirectMessage = isDirectMessage;
+		GroupId = groupId;
+		this.isDeleted = isDeleted;
+	}
+
+
+
+
+
+
 	private Boolean isDeleted;
+    public int getTranslatedMessageId() {
+		return TranslatedMessageId;
+	}
+
+
+
+	public void setTranslatedMessageId(int translatedMessageId) {
+		TranslatedMessageId = translatedMessageId;
+	}
+
+
+
+	public int getSenderUserId() {
+		return SenderUserId;
+	}
+
+
+
+	public void setSenderUserId(int senderUserId) {
+		SenderUserId = senderUserId;
+	}
+
+
+
+	public int getRecieverUserId() {
+		return RecieverUserId;
+	}
+
+
+
+	public void setRecieverUserId(int recieverUserId) {
+		RecieverUserId = recieverUserId;
+	}
+
+
+
+	public Date getMessageSentTimestamp() {
+		return messageSentTimestamp;
+	}
+
+
+
+	public void setMessageSentTimestamp(Date messageSentTimestamp) {
+		this.messageSentTimestamp = messageSentTimestamp;
+	}
+
+
+
+	public Date getMessageRecievedTimestamp() {
+		return messageRecievedTimestamp;
+	}
+
+
+
+	public void setMessageRecievedTimestamp(Date messageRecievedTimestamp) {
+		this.messageRecievedTimestamp = messageRecievedTimestamp;
+	}
+
+
+
+	public Boolean getMessageReadByReciever() {
+		return messageReadByReciever;
+	}
+
+
+
+	public void setMessageReadByReciever(Boolean messageReadByReciever) {
+		this.messageReadByReciever = messageReadByReciever;
+	}
+
+
+
+	public Boolean getIsDirectMessage() {
+		return isDirectMessage;
+	}
+
+
+
+	public void setIsDirectMessage(Boolean isDirectMessage) {
+		this.isDirectMessage = isDirectMessage;
+	}
+
+
+
+	public int getGroupId() {
+		return GroupId;
+	}
+
+
+
+	public void setGroupId(int groupId) {
+		GroupId = groupId;
+	}
+
+
+
+	public Boolean getIsDeleted() {
+		return isDeleted;
+	}
+
+
+
+	public void setIsDeleted(Boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+
+
+
 	
 	
 	
@@ -47,105 +158,6 @@ public class UserMessageMapping {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public UserMessageMapping(int userMessageMappingId, UserDetails UserMessageMapping_TranslatedMessageId,
-			UserDetails userMessageMapping_SenderUserId, UserDetails userMessageMapping_RecieverUserId,
-			Date messageSentTimestamp, Date messageRecievedTimestamp, Boolean messageReadByReciever,
-			Boolean isDirectMessage, UserDetails userMessageMapping_GroupId, Boolean isDeleted) {
-		super();
-		this.userMessageMappingId = userMessageMappingId;
-		this.UserMessageMapping_TranslatedMessageId = UserMessageMapping_TranslatedMessageId;
-		this.userMessageMapping_SenderUserId = userMessageMapping_SenderUserId;
-		this.userMessageMapping_RecieverUserId = userMessageMapping_RecieverUserId;
-		this.messageSentTimestamp = messageSentTimestamp;
-		this.messageRecievedTimestamp = messageRecievedTimestamp;
-		this.messageReadByReciever = messageReadByReciever;
-		this.isDirectMessage = isDirectMessage;
-		this.userMessageMapping_GroupId = userMessageMapping_GroupId;
-		this.isDeleted = isDeleted;
-	}
-
-
-	public int getUserMessageMappingId() {
-		return userMessageMappingId;
-	}
-
-	public void setUserMessageMappingId(int userMessageMappingId) {
-		this.userMessageMappingId = userMessageMappingId;
-	}
-
-
-	public UserDetails getUserMessageMapping_TranslatedMessageId() {
-		return UserMessageMapping_TranslatedMessageId;
-	}
-
-	public void setUserMessageMapping_TranslatedMessageId(UserDetails UserMessageMapping_TranslatedMessageId) {
-		this.UserMessageMapping_TranslatedMessageId = UserMessageMapping_TranslatedMessageId;
-	}
-
-	public UserDetails getUserMessageMapping_SenderUserId() {
-		return userMessageMapping_SenderUserId;
-	}
-
-	public void setUserMessageMapping_SenderUserId(UserDetails userMessageMapping_SenderUserId) {
-		this.userMessageMapping_SenderUserId = userMessageMapping_SenderUserId;
-	}
-
-	public UserDetails getUserMessageMapping_RecieverUserId() {
-		return userMessageMapping_RecieverUserId;
-	}
-
-	public void setUserMessageMapping_RecieverUserId(UserDetails userMessageMapping_RecieverUserId) {
-		this.userMessageMapping_RecieverUserId = userMessageMapping_RecieverUserId;
-	}
-
-	public Date getMessageSentTimestamp() {
-		return messageSentTimestamp;
-	}
-
-	public void setMessageSentTimestamp(Date messageSentTimestamp) {
-		this.messageSentTimestamp = messageSentTimestamp;
-	}
-
-	public Date getMessageRecievedTimestamp() {
-		return messageRecievedTimestamp;
-	}
-
-	public void setMessageRecievedTimestamp(Date messageRecievedTimestamp) {
-		this.messageRecievedTimestamp = messageRecievedTimestamp;
-	}
-
-	public Boolean getMessageReadByReciever() {
-		return messageReadByReciever;
-	}
-
-	public void setMessageReadByReciever(Boolean messageReadByReciever) {
-		this.messageReadByReciever = messageReadByReciever;
-	}
-
-	public Boolean getIsDirectMessage() {
-		return isDirectMessage;
-	}
-
-	public void setIsDirectMessage(Boolean isDirectMessage) {
-		this.isDirectMessage = isDirectMessage;
-	}
-
-	public UserDetails getUserMessageMapping_GroupId() {
-		return userMessageMapping_GroupId;
-	}
-
-	public void setUserMessageMapping_GroupId(UserDetails userMessageMapping_GroupId) {
-		this.userMessageMapping_GroupId = userMessageMapping_GroupId;
-	}
-
-	public Boolean getIsDeleted() {
-		return isDeleted;
-	}
-
-	public void setIsDeleted(Boolean isDeleted) {
-		this.isDeleted = isDeleted;
-	}
-
 
 	
 }

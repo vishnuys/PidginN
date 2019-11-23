@@ -1,17 +1,8 @@
 package OOAD.Entities;
 
-import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-
-@Entity
 public class TranslatedMessage {
 
-//attributes
-	@Id
 	private int translatedMessageId;
 	
 	private int messageId;
@@ -22,21 +13,16 @@ public class TranslatedMessage {
 	
 	private String translatedMessage;
 	
-	@OneToMany(mappedBy = "UserMessageMapping_TranslatedMessageId", cascade = CascadeType.ALL)
-	private Set<UserMessageMapping> UserMessageMapping_TranslatedMessageId;
-	
-	
 	
 	public TranslatedMessage() {}
 	public TranslatedMessage(int translatedMessageId, int messageId, String cultureCode, String senderMessage,
-			String translatedMessage, Set<UserMessageMapping> userMessageMapping_TranslatedMessageId) {
+			String translatedMessage) {
 		super();
 		this.translatedMessageId = translatedMessageId;
 		this.messageId = messageId;
 		this.cultureCode = cultureCode;
 		this.senderMessage = senderMessage;
 		this.translatedMessage = translatedMessage;
-		UserMessageMapping_TranslatedMessageId = userMessageMapping_TranslatedMessageId;
 	}
 
 	public int getTranslatedMessageId() {
@@ -78,14 +64,5 @@ public class TranslatedMessage {
 	public void setTranslatedMessage(String translatedMessage) {
 		this.translatedMessage = translatedMessage;
 	}
-
-	public Set<UserMessageMapping> getUserMessageMapping_TranslatedMessageId() {
-		return UserMessageMapping_TranslatedMessageId;
-	}
-
-	public void setUserMessageMapping_TranslatedMessageId(Set<UserMessageMapping> userMessageMapping_TranslatedMessageId) {
-		UserMessageMapping_TranslatedMessageId = userMessageMapping_TranslatedMessageId;
-	}
-
 	
 }
