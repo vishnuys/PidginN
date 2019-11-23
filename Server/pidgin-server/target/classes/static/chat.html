@@ -113,6 +113,10 @@
 									</div>
 									<div class="card-footer">
 										<div class="input-group">
+											<div class="input-group-prepend">
+												<button class="btn btn-primary" type="button" id="v-keyboard"
+													ng-click="showKeyboard()"><i class="fa fa-keyboard-o"></i></button>
+											</div>
 											<input id="send-text" type="text" class="form-control"
 												placeholder="Enter message to send..."
 												ng-model="messageToSend">
@@ -153,6 +157,7 @@
 	<script src="lib/bootstrap.min.js"></script>
 	<script src="lib/angular.min.js"></script>
 	<script src="lib/sweetalert2.js"></script>
+	<script src="lib/jsapi.js"></script>
 	<script src="js/chat.js"></script>
 
 </body>
