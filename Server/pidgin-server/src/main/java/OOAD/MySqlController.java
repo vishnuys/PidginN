@@ -169,10 +169,12 @@ public class MySqlController {
 	public Boolean SaveMessage(@RequestBody Message message) {
 		
 		StoredProcedureQuery query = entityManager.createStoredProcedureQuery("savemessage"); 		
-		
-		
-		
+	
 		TranslatedMessage translatedMessage = message.translatedMessage;
+//		TranslatedMessage translatedMessage = new TranslatedMessage();
+//		translatedMessage.setCultureCode(message.translatedMessage.getCultureCode());
+//		translatedMessage.setCultureCode(message.translatedMessage.getCultureCode());
+		
 		System.out.println(message.userMessageMapping.getIsDirectMessage());
 		UserMessageMapping userMessageMapping = message.userMessageMapping;
 		userMessageMapping.setSenderUserId(message.userMessageMapping.SenderUserId);
@@ -340,14 +342,24 @@ public class MySqlController {
 			if((String)o[9] == (String)o[6]) {
 				jsonObj.put("username",(String)o[4]);
 				jsonObj.put("name",(String)o[5]);
+				jsonObj.put("userID",(int)o[12]);
+				jsonObj.put("language",(String)o[13]);
 			}
 			else {
 				jsonObj.put("username",(String)o[6]);
 				jsonObj.put("name",(String)o[7]);
+				jsonObj.put("userID",(int)o[10]);
+				jsonObj.put("language",(String)o[11]);
 			}
+			String reclang = (String)o[11];//
+			int recuserid = (int)o[10];
+			
+			jsonObj.put("name",(String)o[5]);
+			jsonObj.put("name",(String)o[5]);
 
 			String recusername = (String)o[6]; //rec user name
 			String recfirstname = (String)o[7]; //rec first name
+			
 			
 			String senusername = (String)o[4];
 			String msg = (String)o[0];
