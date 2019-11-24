@@ -1,4 +1,4 @@
-create database pidgin;
+-- create database pidgin;
 -- drop table UserDetails; 
 --  drop table UserConnections
 USE pidgin;
@@ -6,10 +6,10 @@ CREATE TABLE  UserDetails (
   UserID INT AUTO_INCREMENT PRIMARY KEY,
   UserName VARCHAR(500) NOT NULL,
   FirstName VARCHAR(50) NOT NULL,
-  LastName VARCHAR(50) NOT NULL,
+  LastName VARCHAR(50),
   PasswordHash VARCHAR(500) NOT NULL,
   PreferedLanguage VARCHAR(50) NOT NULL,
-  ContactNo  VARCHAR(20) NOT NULL,
+  EmailID  VARCHAR(200) NOT NULL,
   CreatedOn timestamp,
   UpdatedOn timestamp
 );
@@ -19,10 +19,12 @@ USE pidgin;
 CREATE TABLE UserConnections (
 	ConnectionId INT AUTO_INCREMENT PRIMARY KEY,
     UserID INT NULL,
-    ConnectionUserID INT,
+    ConnectionUserID INT NULL,
     ThreadID INT,
      FOREIGN KEY (UserID) REFERENCES UserDetails(UserID)
 );
+insert into UserConnections(UserID,ConnectionUserID,ThreadID) values(null,NULL,0);
+
 
 CREATE TABLE Group1 (
 	GroupId INT AUTO_INCREMENT PRIMARY KEY,

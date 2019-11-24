@@ -3,8 +3,6 @@ package OOAD.Entities;
 import java.util.Date;
 
 public class UserMessageMapping {
-
-	private int TranslatedMessageId;
 	
     public int SenderUserId;
 	
@@ -19,14 +17,20 @@ public class UserMessageMapping {
 	private Boolean isDirectMessage;
 	
     public int GroupId;
+    
+	private Boolean isDeleted;
+
 	
+    public UserMessageMapping(int senderUserId, int recieverUserId) {
+    	this.SenderUserId = senderUserId;
+    	this.RecieverUserId = recieverUserId;
+    	this.GroupId = 0;
+    }
     
-    
-	public UserMessageMapping(int translatedMessageId, int senderUserId, int recieverUserId, Date messageSentTimestamp,
+	public UserMessageMapping(int senderUserId, int recieverUserId, Date messageSentTimestamp,
 			Date messageRecievedTimestamp, Boolean messageReadByReciever, Boolean isDirectMessage, int groupId,
 			Boolean isDeleted) {
 		super();
-		TranslatedMessageId = translatedMessageId;
 		SenderUserId = senderUserId;
 		RecieverUserId = recieverUserId;
 		this.messageSentTimestamp = messageSentTimestamp;
@@ -36,24 +40,6 @@ public class UserMessageMapping {
 		GroupId = groupId;
 		this.isDeleted = isDeleted;
 	}
-
-
-
-
-
-
-	private Boolean isDeleted;
-    public int getTranslatedMessageId() {
-		return TranslatedMessageId;
-	}
-
-
-
-	public void setTranslatedMessageId(int translatedMessageId) {
-		TranslatedMessageId = translatedMessageId;
-	}
-
-
 
 	public int getSenderUserId() {
 		return SenderUserId;

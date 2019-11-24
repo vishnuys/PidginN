@@ -2,8 +2,6 @@ package OOAD.Entities;
 
 
 public class TranslatedMessage {
-
-	private int translatedMessageId;
 	
 	private int messageId;
 	
@@ -14,23 +12,18 @@ public class TranslatedMessage {
 	private String translatedMessage;
 	
 	
-	public TranslatedMessage() {}
-	public TranslatedMessage(int translatedMessageId, int messageId, String cultureCode, String senderMessage,
-			String translatedMessage) {
-		super();
-		this.translatedMessageId = translatedMessageId;
-		this.messageId = messageId;
+	public TranslatedMessage(String cultureCode, String senderMessage, String translatedMessage) {
 		this.cultureCode = cultureCode;
 		this.senderMessage = senderMessage;
 		this.translatedMessage = translatedMessage;
 	}
-
-	public int getTranslatedMessageId() {
-		return translatedMessageId;
-	}
-
-	public void setTranslatedMessageId(int translatedMessageId) {
-		this.translatedMessageId = translatedMessageId;
+	public TranslatedMessage(int messageId, String cultureCode, String senderMessage,
+			String translatedMessage) {
+		super();
+		this.messageId = messageId;
+		this.cultureCode = cultureCode;
+		this.senderMessage = senderMessage;
+		this.translatedMessage = translatedMessage;
 	}
 
 	public int getMessageId() {
