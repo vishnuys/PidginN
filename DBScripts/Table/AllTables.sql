@@ -15,11 +15,12 @@ CREATE TABLE  UserDetails (
 );
 
 USE pidgin;
+
 CREATE TABLE UserConnections (
 	ConnectionId INT AUTO_INCREMENT PRIMARY KEY,
-    UserID INT,
+    UserID INT NULL,
     ConnectionUserID INT,
-    
+    ThreadID INT,
      FOREIGN KEY (UserID) REFERENCES UserDetails(UserID)
 );
 

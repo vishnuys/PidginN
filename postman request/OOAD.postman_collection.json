@@ -88,17 +88,17 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "1"
+					"raw": "{\n\t\"userID\" : 2,\n\t\"connectionUserID\": 3\n}"
 				},
 				"url": {
-					"raw": "http://localhost:8080/fetchallconnections",
+					"raw": "http://localhost:8080/addconnection",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"fetchallconnections"
+						"addconnection"
 					]
 				}
 			},
@@ -147,7 +147,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"translatedMessage\": {\n\t\t\"cultureCode\":\"en-US\",\n\t\t\"senderMessage\":\"TestMSg\",\n\t\t\"translatedMessage\" :\"sjakdakdshkasdhkajs\"\n\t\t\n\t},\n\t\"userMessageMapping\" : {\n\t\t\"SenderUserId\": 1,\n\t\t\"RecieverUserId\": 2,\n\t\t\"GroupId\":0,\n\t\t\"isDirectMessage\":true\n\t\t\n\t}\n}",
+					"raw": "{\n\t\"translatedMessage\": {\n\t\t\"cultureCode\":\"en-US\",\n\t\t\"senderMessage\":\"TestMSg1DA2\",\n\t\t\"translatedMessage\" :\"sjakdakdshkasdhkajs\"\n\t\t\n\t},\n\t\"userMessageMapping\" : {\n\t\t\"SenderUserId\": 2,\n\t\t\"RecieverUserId\": 3,\n\t\t\"GroupId\":0,\n\t\t\"isDirectMessage\":true\n\t\t\n\t}\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -169,7 +169,7 @@
 			"response": []
 		},
 		{
-			"name": "http://localhost:8080/fetchloggedinuserdetails",
+			"name": "http://localhost:8080/checkusercreds",
 			"request": {
 				"method": "POST",
 				"header": [
@@ -217,7 +217,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"username\" : \"abc\",\n\t\"password\": \"sdhajkhdahsdjkas\"\n}",
+					"raw": "abc",
 					"options": {
 						"raw": {
 							"language": "json"
