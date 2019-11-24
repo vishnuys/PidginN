@@ -4,7 +4,7 @@ BEGIN
 
 
 
-	select UserID,UserName,FirstName,LastName,PreferedLanguage,ContactNo
+	select UserID,UserName,FirstName,LastName,PreferedLanguage,EmailID
     from UserDetails;
 -- Set outUserId =1;
 END

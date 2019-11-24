@@ -6,10 +6,10 @@ CREATE TABLE  UserDetails (
   UserID INT AUTO_INCREMENT PRIMARY KEY,
   UserName VARCHAR(500) NOT NULL,
   FirstName VARCHAR(50) NOT NULL,
-  LastName VARCHAR(50) NOT NULL,
+  LastName VARCHAR(50),
   PasswordHash VARCHAR(500) NOT NULL,
   PreferedLanguage VARCHAR(50) NOT NULL,
-  ContactNo  VARCHAR(20) NOT NULL,
+  EmailID  VARCHAR(200) NOT NULL,
   CreatedOn timestamp,
   UpdatedOn timestamp
 );
