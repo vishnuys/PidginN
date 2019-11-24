@@ -1,13 +1,15 @@
 CREATE DEFINER=`root`@`localhost` PROCEDURE `checkusercreds`(
-IN username VARCHAR(100),
-IN password VARCHAR(100),
-OUT isValid BOOLEAN
+IN VARusername VARCHAR(100),
+IN VARpassword VARCHAR(100)
 )
 BEGIN
-
-	SET isValid = FALSE;
-    IF EXISTS(SELECT 1 FROM userdetails WHERE  UserName =username AND PasswordHash = password) THEN
-		SET isValid = TRUE;
+declare outputval INT;
+    IF EXISTS(SELECT 1 FROM userdetails WHERE  UserName =VARusername AND PasswordHash = VARpassword) THEN
+		set outputval = 1;
+		SELECT UserID,UserName,FirstName,LastName,PreferedLanguage,ContactNo FROM userdetails  WHERE  UserName =VARusername AND PasswordHash = VARpassword;
+    else
+		set outputval = 0;
+        SELECT outputval,'a','b','c','d','e' from userdetails;
     END IF;
 
 END

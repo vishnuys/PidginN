@@ -1,6 +1,7 @@
 package OOAD;
 
 import java.util.ArrayList;
+import java.math.*;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -38,25 +39,60 @@ public class MySqlController {
 	
 	//methods
 	@RequestMapping(method = RequestMethod.POST, value="/checkusercreds")
-	public Boolean CheckUserCreds(@RequestBody UserDetails usr) {
+	public UserDetails CheckUserCreds(@RequestBody UserDetails usr) {
 		
 		StoredProcedureQuery query = entityManager.createStoredProcedureQuery("checkusercreds"); 
 
         //Declare the parameters in the same order
         query.registerStoredProcedureParameter(1, String.class, ParameterMode.IN);
         query.registerStoredProcedureParameter(2, String.class, ParameterMode.IN);
-        query.registerStoredProcedureParameter(3, Boolean.class, ParameterMode.OUT);
 
 
         //Pass the parameter values
         query.setParameter(1, usr.getUsername());
         query.setParameter(2, usr.getPassword());
         
-        Boolean isValid = (Boolean) query.getOutputParameterValue(3);
+//        Boolean isValid = (Boolean) query.getOutputParameterValue(3);
+        List<Object[]> s = query.getResultList();
+        UserDetails usrdet = null;
+        for (int i = 0; i < s.size(); i++) {
+        	
+        	
+			Object o[] = s.get(i);
+//			System.out.println("0 - " + o[0]);
+//			BigInteger abc= new BigInteger("0");
+//			BigInteger abc1= new BigInteger(o[0]);
+//			if(o[0] == abc) {
+//        		System.out.println("dskajdn");
+//        		usrdet = new UserDetails();
+//        		break;
+//        	}
+			System.out.println("dsadbjasbd");
+	        System.out.println("0 - " + o[0]);
+	        System.out.println("1 - " + o[1]);
+	        System.out.println("2 - " + o[2]);
+	        System.out.println("3 - " + o[3]);
+	        System.out.println("4 - " + o[4]);
+	        System.out.println("5 - " + o[5]);
+
+
+			usrdet = new UserDetails();
+			if((int)o[0] == 0) {
+				break;
+			}
+			System.out.println("dajda");
+			
+			usrdet.setUserID((int)o[0]);
+			usrdet.setUsername((String)o[1]);
+			usrdet.setFirstName((String)o[2]);
+			usrdet.setLastName((String)o[3]);
+			usrdet.setPreferredLanguage((String)o[4]);
+			usrdet.setContactNo((String)o[5]);
+		}
 
         //Execute query
         query.execute();
-		return isValid;
+		return usrdet;
 
 	}
 	
@@ -228,34 +264,86 @@ public class MySqlController {
         StoredProcedureQuery query = entityManager.createStoredProcedureQuery("fetchmessagesforuser"); 
 
         query.registerStoredProcedureParameter(1, Integer.class, ParameterMode.IN);
-        query.registerStoredProcedureParameter(2, Integer.class, ParameterMode.IN);
 
         //Pass the parameter values
         query.setParameter(1, usrcon.getUserID());
-        query.setParameter(2, usrcon.getConnectionUserID());
         
         List<Object[]> s = query.getResultList();
         JSONArray ja = new JSONArray();
-        JSONObject jsonObj = null;
-        for (int i = 0; i < s.size(); i++) {
-			Object o[] = s.get(i);
-			String sender = (String)o[0];
-			String rec = (String)o[1];
-			String msg = (String)o[2];
-			String trmsg = (String)o[3];
-			jsonObj = new JSONObject();
-			jsonObj.put("sender",sender);
-			jsonObj.put("receiver",rec);
-			jsonObj.put("message",msg);
-			jsonObj.put("translatedMessage",trmsg);
-			System.out.println(jsonObj);
-			ja.put(jsonObj);
-			
-		}
-        JSONObject j = new JSONObject();
-        j.put("chatMessages", ja);
+        JSONArray FinalJson = new JSONArray();
         
-        return j.toString();
+        JSONObject jsonObj = null;
+        Object temp[] = s.get(0);
+//        System.out.println("0 - " + temp[0]);
+//        System.out.println("1 - " + temp[1]);
+//        System.out.println("2 - " + temp[2]);
+//        System.out.println("3 - " + temp[3]);
+//        System.out.println("4 - " + temp[4]);
+//        System.out.println("5 - " + temp[5]);
+//        System.out.println("6 - " + temp[6]);
+//        System.out.println("7 - " + temp[7]);
+//        System.out.println("8 - " + temp[8]);
+//        System.out.println("9 - " + temp[9]);
+        System.out.println("size "+s.size());
+        for (int i = 0; i < s.size(); i++) {
+        	System.out.println(" i = "+i);
+        	jsonObj = new JSONObject();
+			Object o[] = s.get(i);
+			JSONObject chatmsg = new JSONObject();
+			//check logged in user logic username
+			if((String)o[9] == (String)o[6]) {
+				jsonObj.put("username",(String)o[4]);
+				jsonObj.put("name",(String)o[5]);
+			}
+			else {
+				jsonObj.put("username",(String)o[6]);
+				jsonObj.put("name",(String)o[7]);
+			}
+
+			String recusername = (String)o[6]; //rec user name
+			String recfirstname = (String)o[7]; //rec first name
+			
+			String senusername = (String)o[4];
+			String msg = (String)o[0];
+			String tran = (String)o[1];
+			
+			chatmsg.put("sender", senusername);
+			chatmsg.put("receiver", recusername);
+			chatmsg.put("message", msg);
+			chatmsg.put("translatedMessage", tran);
+			int threadno = (int)o[8];
+			ja.put(chatmsg);
+//			System.out.println("1");
+			int j;
+			for(j=i+1;j<s.size();j++) {
+				System.out.println(" j = "+ j);
+				Object o1[] = s.get(j);
+				if(threadno != (int)o1[8]) {
+					
+					break;
+				}
+				String recusername1 = (String)o1[6]; //rec user name
+				
+				String senusername1 = (String)o1[4];
+				String msg1 = (String)o1[0];
+				String tran1 = (String)o1[1];
+				
+				chatmsg.put("sender", senusername1);
+				chatmsg.put("receiver", recusername1);
+				chatmsg.put("message", msg1);
+				chatmsg.put("translatedMessage", tran1);
+				threadno = (int)o1[8];
+				ja.put(chatmsg);
+			}
+			
+			i = j;
+			System.out.println("after " + i);
+			jsonObj.put("chatMessages", ja);
+			FinalJson.put(jsonObj);
+			ja = new JSONArray();
+			jsonObj = new JSONObject();
+		}        
+        return FinalJson.toString();
     }
 	
 }
