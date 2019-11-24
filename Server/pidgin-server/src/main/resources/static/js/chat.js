@@ -121,10 +121,25 @@ app.controller('pidgin', ['$scope', '$http', function($scope, $http) {
 		}
 	};
 
+	$scope.onMessage = function(messageJson) {
+		var msgJson = JSON.parse(messageJson);
+		console.log(msgJson);
+
+	}
 	$scope.connect = function() {
-		$scope.websocket = new WebSocket(
-			'ws://localhost:8080/chat/'
-			+ $scope.username);
+		$scope.websocket = Stomp.client('ws://localhost:8080/chatroom');
+		$scope.websocket.connect({
+			username: $scope.loggedInUser.username
+		}, function() {
+			$scope.websocket.subscribe("/topic/chatroom", function(message) {
+				console.log(message);
+			});
+			$scope.websocket.subscribe("/user/queue/private", $scope.onMessage);
+			$scope.websocket.send("/app/sendall", {}, $scope.loggedInUser.userID);
+		}, function(error) {
+			console.log(message);
+		});
+
 		$scope.websocket.onmessage = function(data) {
 
 		}
@@ -204,35 +219,46 @@ app.controller('pidgin', ['$scope', '$http', function($scope, $http) {
 	};
 
 	$scope.sendMessage = function(msg) {
-		$.ajax({
-			url : '/translate',
-			type : 'POST',
-			data : {
-				'sender' : $scope.username,
-				'receiver' : $scope.currentUser,
-				'text' : msg
-			},
-			success : function(data) {
-				var data = {
-					sender : $scope.username,
-					receiver : $scope.currentUser,
-					message : msg,
-					translatedMessage : data
-				}
-				var index = $scope.getUserIndex($scope.currentUser);
-				$scope.connections[index].chatMessages.push(data);
-				$scope.connections[index].lastMessage = msg;
-				$scope.connections[index].lastUpdated = 'Today';
-				$("#chatbox").animate({
-					scrollTop : $('#chatbox').get(0).scrollHeight
-				}, 1000);
-				$('#send-text').val('');
-				$scope.$digest();
-			},
-			error : function(e) {
-				console.error(e)
-			}
-		});
+		var reciever = $scope.getUserIndex($scope.currentUser);
+		var data = {
+			'senderUserID' : $scope.loggedInUser.userID,
+			'senderUserName' : $scope.username,
+			'senderLang' : $scope.loggedInUser.language,
+			'receiverUserID' : reciever.userID,
+			'receiverUserName' : $scope.currentUser,
+			'recieverLang' : reciever.language,
+			'userMessage' : msg,
+		}
+		$scope.websocket.send("/app/message", {}, JSON.stringify(data));
+		// $.ajax({
+		// 	url : '/translate',
+		// 	type : 'POST',
+		// 	data : {
+		// 		'sender' : $scope.username,
+		// 		'receiver' : $scope.currentUser,
+		// 		'text' : msg
+		// 	},
+		// 	success : function(data) {
+		// 		var data = {
+		// 			sender : $scope.username,
+		// 			receiver : $scope.currentUser,
+		// 			message : msg,
+		// 			translatedMessage : data
+		// 		}
+		// 		var index = $scope.getUserIndex($scope.currentUser);
+		// 		$scope.connections[index].chatMessages.push(data);
+		// 		$scope.connections[index].lastMessage = msg;
+		// 		$scope.connections[index].lastUpdated = 'Today';
+		// 		$("#chatbox").animate({
+		// 			scrollTop : $('#chatbox').get(0).scrollHeight
+		// 		}, 1000);
+		// 		$('#send-text').val('');
+		// 		$scope.$digest();
+		// 	},
+		// 	error : function(e) {
+		// 		console.error(e)
+		// 	}
+		// });
 	}
 
 	$scope.showKeyboard = function() {
