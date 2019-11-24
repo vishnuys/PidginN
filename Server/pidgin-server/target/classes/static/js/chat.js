@@ -2,86 +2,94 @@ var app = angular.module('OOAD', []);
 app.controller('pidgin', ['$scope', '$http', function($scope, $http) {
 	$scope.loading = true;
 	$scope.username = getCookie('username');
+	$scope.loggedInUser = {
+		'username': getCookie('username'),
+		'userID': getCookie('userID'),
+		'language': getCookie('language'),
+		'firstName': getCookie('firstName'),
+		'lastName': getCookie('lastName'),
+		'contactNo': getCookie('contactNo')
+	};
 	$scope.websocket = '';
-	$scope.connections = [
-	{
-		username : 'h',
-		name : 'Howard',
-		lastMessage : "Yes, I'm on it. I'll send it as soon as I am done.",
-		lastUpdated : '3 days ago',
-		chatMessages : [
-		{
-			sender : 'h',
-			receiver : 'm',
-			message : 'यह तुरंत किए जाने की आवश्यकता है',
-			translatedMessage : 'This needs to be done immediately',
-		},
-		{
-			sender : 'm',
-			receiver : 'h',
-			message : "Yes, I'm on it. I'll send it as soon as I am done.",
-			translatedMessage : 'हां, मैं इस पर कायम हूं। मैं जैसे ही करूंगा, भेज दूंगा।'
-		}]
-	},
-	{
-		username : 'n',
-		name : 'Manuel',
-		lastMessage : "Yes, I'm on it. I'll send it as soon as I am done.",
-		lastUpdated : '4 days ago',
-		chatMessages : [
-		{
-			sender : 'n',
-			receiver : 'm',
-			message : "Esto debe hacerse de inmediato",
-			translatedMessage : 'This needs to be done immediately',
-		},
-		{
-			sender : 'm',
-			receiver : 'n',
-			message : "Yes, I'm on it. I'll send it as soon as I am done.",
-			translatedMessage : 'Sí, estoy en eso. Lo enviaré tan pronto como termine.'
-		}]
-	},
-	{
-		username : 'g',
-		name : 'George',
-		lastMessage : "Yes, I'm on it. I'll send it as soon as I am done.",
-		lastUpdated : '5 days ago',
-		chatMessages : [
-		{
-			sender : 'g',
-			receiver : 'm',
-			message : "Dies muss sofort erfolgen",
-			translatedMessage : 'This needs to be done immediately',
-		},
-		{
-			sender : 'm',
-			receiver : 'g',
-			message : "Yes, I'm on it. I'll send it as soon as I am done.",
-			translatedMessage : 'Ja, ich bin dabei. Ich werde es senden, sobald ich fertig bin.'
-		}]
-	},
-	{
-		username : 'k',
-		name : 'Karen',
-		lastMessage : "Yes, I'm on it. I'll send it as soon as I am done.",
-		lastUpdated : '6 days ago',
-		chatMessages : [
-		{
-			sender : 'k',
-			receiver : 'm',
-			message : "ಇದನ್ನು ತಕ್ಷಣ ಮಾಡಬೇಕಾಗಿದೆ",
-			translatedMessage : 'This needs to be done immediately',
-		},
-		{
-			sender : 'm',
-			receiver : 'k',
-			message : "Yes, I'm on it. I'll send it as soon as I am done.",
-			translatedMessage : 'ಹೌದು, ನಾನು ಅದರ ಮೇಲೆ ಇದ್ದೇನೆ. ನಾನು ಮುಗಿದ ತಕ್ಷಣ ಅದನ್ನು ಕಳುಹಿಸುತ್ತೇನೆ.'
-		}]
-	}];
-
-	$scope.currentUser = $scope.connections[0].username;
+	$scope.userList = [];
+	$scope.connections = [];
+	// $scope.connections = [
+	// {
+	// 	username : 'h',
+	// 	name : 'Howard',
+	// 	lastMessage : "Yes, I'm on it. I'll send it as soon as I am done.",
+	// 	lastUpdated : '3 days ago',
+	// 	chatMessages : [
+	// 	{
+	// 		sender : 'h',
+	// 		receiver : 'm',
+	// 		message : 'यह तुरंत किए जाने की आवश्यकता है',
+	// 		translatedMessage : 'This needs to be done immediately',
+	// 	},
+	// 	{
+	// 		sender : 'm',
+	// 		receiver : 'h',
+	// 		message : "Yes, I'm on it. I'll send it as soon as I am done.",
+	// 		translatedMessage : 'हां, मैं इस पर कायम हूं। मैं जैसे ही करूंगा, भेज दूंगा।'
+	// 	}]
+	// },
+	// {
+	// 	username : 'n',
+	// 	name : 'Manuel',
+	// 	lastMessage : "Yes, I'm on it. I'll send it as soon as I am done.",
+	// 	lastUpdated : '4 days ago',
+	// 	chatMessages : [
+	// 	{
+	// 		sender : 'n',
+	// 		receiver : 'm',
+	// 		message : "Esto debe hacerse de inmediato",
+	// 		translatedMessage : 'This needs to be done immediately',
+	// 	},
+	// 	{
+	// 		sender : 'm',
+	// 		receiver : 'n',
+	// 		message : "Yes, I'm on it. I'll send it as soon as I am done.",
+	// 		translatedMessage : 'Sí, estoy en eso. Lo enviaré tan pronto como termine.'
+	// 	}]
+	// },
+	// {
+	// 	username : 'g',
+	// 	name : 'George',
+	// 	lastMessage : "Yes, I'm on it. I'll send it as soon as I am done.",
+	// 	lastUpdated : '5 days ago',
+	// 	chatMessages : [
+	// 	{
+	// 		sender : 'g',
+	// 		receiver : 'm',
+	// 		message : "Dies muss sofort erfolgen",
+	// 		translatedMessage : 'This needs to be done immediately',
+	// 	},
+	// 	{
+	// 		sender : 'm',
+	// 		receiver : 'g',
+	// 		message : "Yes, I'm on it. I'll send it as soon as I am done.",
+	// 		translatedMessage : 'Ja, ich bin dabei. Ich werde es senden, sobald ich fertig bin.'
+	// 	}]
+	// },
+	// {
+	// 	username : 'k',
+	// 	name : 'Karen',
+	// 	lastMessage : "Yes, I'm on it. I'll send it as soon as I am done.",
+	// 	lastUpdated : '6 days ago',
+	// 	chatMessages : [
+	// 	{
+	// 		sender : 'k',
+	// 		receiver : 'm',
+	// 		message : "ಇದನ್ನು ತಕ್ಷಣ ಮಾಡಬೇಕಾಗಿದೆ",
+	// 		translatedMessage : 'This needs to be done immediately',
+	// 	},
+	// 	{
+	// 		sender : 'm',
+	// 		receiver : 'k',
+	// 		message : "Yes, I'm on it. I'll send it as soon as I am done.",
+	// 		translatedMessage : 'ಹೌದು, ನಾನು ಅದರ ಮೇಲೆ ಇದ್ದೇನೆ. ನಾನು ಮುಗಿದ ತಕ್ಷಣ ಅದನ್ನು ಕಳುಹಿಸುತ್ತೇನೆ.'
+	// 	}]
+	// }];
 
 	function getCookie(cname) {
 		var name = cname + "=";
@@ -99,11 +107,18 @@ app.controller('pidgin', ['$scope', '$http', function($scope, $http) {
 		return "";
 	}
 
+	function deleteCookie(cname) {
+		document.cookie = cname + "=;expires=Thu; 01 Jan 1970";
+	}
+
 	$scope.ready = function() {
 		if ($scope.username == '') {
 			location.href = '/login';
 		}
 		$scope.connect();
+		if ($scope.connections.length > 0) {
+			$scope.currentUser = $scope.connections[0].username;
+		}
 	};
 
 	$scope.connect = function() {
@@ -128,9 +143,68 @@ app.controller('pidgin', ['$scope', '$http', function($scope, $http) {
 		}
 	};
 
+	$scope.addConnection = function() {
+		Swal.fire({
+			title: 'Add Connection',
+			allowOutsideClick: false,
+			allowEscapeKey: false,
+			allowEnterKey: false,
+			onBeforeOpen: () => {
+				Swal.showLoading()
+			}
+		});
+		$http({
+			method: 'POST',
+			url: '/fetchallusers',
+		})
+		.then(function(res){
+			data = res.data;
+			$scope.userList = [];
+			var connectionsList = $scope.connections.map(function(elem, i) {
+				return elem.userID;
+			})
+			for(var i in data) {
+				if($scope.loggedInUser.username != data[i].username && !connectionsList.includes(data[i].userID)) {
+					$scope.userList.push(data[i]);
+				}
+			}
+			Swal.close();
+			angular.element('#addConnectionModal').modal('show');
+		}, (err)=>{
+			console.error(err);
+		})
+	};
+
+	$scope.createConnection = function(userID, username, name) {
+		$http({
+			method: 'POST',
+			url: '/addconnection',
+			data: {userID: $scope.loggedInUser.userID, connectionUserID: userID}
+		})
+		.then((res)=>{
+			if(res.data) {
+				Swal.fire('Connection added successfully!', '', 'success');
+				$scope.connections.push({
+					username : username,
+					name : name,
+					lastMessage : '',
+					lastUpdated : '',
+					chatMessages : []
+				})
+				$scope.userList = $scope.userList.filter(function(elem) {
+					return elem.userID != userID;
+				});
+				if ($scope.connections.length == 1) {
+					$scope.currentUser = username;
+				}
+			}
+		}, (err)=>{
+			console.error(err);
+		})
+	};
+
 	$scope.sendMessage = function(msg) {
-		$
-		.ajax({
+		$.ajax({
 			url : '/translate',
 			type : 'POST',
 			data : {
@@ -145,19 +219,12 @@ app.controller('pidgin', ['$scope', '$http', function($scope, $http) {
 					message : msg,
 					translatedMessage : data
 				}
-				var index = $scope
-				.getUserIndex($scope.currentUser);
-				$scope.connections[index].chatMessages
-				.push(data);
+				var index = $scope.getUserIndex($scope.currentUser);
+				$scope.connections[index].chatMessages.push(data);
 				$scope.connections[index].lastMessage = msg;
 				$scope.connections[index].lastUpdated = 'Today';
-				$("#chatbox")
-				.animate(
-				{
-					scrollTop : $(
-						'#chatbox')
-					.get(
-						0).scrollHeight
+				$("#chatbox").animate({
+					scrollTop : $('#chatbox').get(0).scrollHeight
 				}, 1000);
 				$('#send-text').val('');
 				$scope.$digest();
@@ -177,7 +244,10 @@ app.controller('pidgin', ['$scope', '$http', function($scope, $http) {
 	}
 
 	$scope.logout = function() {
-		document.cookie = "username=;expires=Thu; 01 Jan 1970"
+		var cookieList = ['username', 'userID', 'language', 'firstName', 'lastName', 'contactNo'];
+		for(var i in cookieList) {
+			deleteCookie(cookieList[i]);
+		}
 		location.href = '/login';
 	}
 

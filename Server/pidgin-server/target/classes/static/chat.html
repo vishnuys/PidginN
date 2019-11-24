@@ -1,31 +1,28 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="OOAD">
 <head>
-<meta charset="utf-8">
-<title>PidginN</title>
-<meta content="width=device-width, initial-scale=1.0" name="viewport">
-<meta content="" name="keywords">
-<meta content="" name="description">
+	<meta charset="utf-8">
+	<title>PidginN</title>
+	<meta content="width=device-width, initial-scale=1.0" name="viewport">
+	<meta content="" name="keywords">
+	<meta content="" name="description">
 
-<!-- Favicons -->
-<link href="img/pigeon.png" rel="icon">
+	<!-- Favicons -->
+	<link href="img/pigeon.png" rel="icon">
 
-<!-- Google Fonts -->
-<link
-	href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Roboto:100,300,400,500,700|Philosopher:400,400i,700,700i"
-	rel="stylesheet">
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Roboto:100,300,400,500,700|Philosopher:400,400i,700,700i" rel="stylesheet">
 
-<!-- Bootstrap css -->
-<link href="lib/bootstrap.min.css" rel="stylesheet">
-<link href="lib/font-awesome.min.css" rel="stylesheet">
+	<!-- Bootstrap css -->
+	<link href="lib/bootstrap.min.css" rel="stylesheet">
+	<link href="lib/font-awesome.min.css" rel="stylesheet">
 
-<!-- Main Stylesheet File -->
-<link href="css/style.css" rel="stylesheet">
+	<!-- Main Stylesheet File -->
+	<link href="css/style.css" rel="stylesheet">
 
 </head>
 
-<body ng-controller="pidgin" ng-init="ready()" ng-cloak
-	class="chat-body">
+<body ng-controller="pidgin" ng-init="ready()" ng-cloak class="chat-body">
 	<header id="header" class="header header-hide">
 		<nav class="navbar navbar-expand-lg navbar-dark bg-primary py-0">
 			<a class="navbar-brand" href="#"> <img src="img/pigeon.png"
@@ -33,16 +30,16 @@
 				Pidgin<span class="text-danger">N</span>
 			</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse"
-				data-target="#navbarColor01" aria-controls="navbarColor01"
-				aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
+			data-target="#navbarColor01" aria-controls="navbarColor01"
+			aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
 
-			<div class="collapse navbar-collapse" id="navbarColor01">
-				<ul class="navbar-nav ml-auto">
-					<li class="nav-item"><a class="nav-link" href="#">Add User</a></li>
-					<li class="nav-item"><a class="nav-link" href="#"
-						ng-click="logout()">Logout</a></li>
+		<div class="collapse navbar-collapse" id="navbarColor01">
+			<ul class="navbar-nav ml-auto">
+				<li class="nav-item"><a class="nav-link" href="#" ng-click="addConnection()">Add Connection</a></li>
+				<li class="nav-item"><a class="nav-link" href="#"
+					ng-click="logout()">Logout</a></li>
 				</ul>
 			</div>
 		</nav>
@@ -63,28 +60,20 @@
 				<div class="col-3 p-3">
 					<div class="input-group mb-3">
 						<div class="input-group-append">
-							<span class="input-group-text" id="basic-addon2"><i
-								class="fa fa-search"></i></span>
+							<span class="input-group-text" id="basic-addon2"><i class="fa fa-search"></i></span>
 						</div>
 						<input type="text" class="form-control" placeholder="Search"
-							ng-model='connections_search'>
+						ng-model='connections_search'>
 					</div>
 					<div class="list-group nav mt-5">
-						<a ng-repeat="user in connections | filter : connections_search"
-							href="#{{user.username}}_tabpane"
-							class="nav-link list-group-item list-group-item-action"
-							ng-class="{'active': $first}" id="{{user.username}}_tab"
-							data-toggle="tab" href="#{{user.username}}_tabpane" role="tab"
-							aria-controls="{{user.username}}_tabpane"
-							aria-selected="{{$first ? 'true' : 'false'}}"
-							ng-click="changeUser(user.username)">
+						<a ng-repeat="user in connections | filter : connections_search" href="#{{user.username}}_tabpane" class="nav-link list-group-item list-group-item-action" ng-class="{'active': $first}" id="{{user.username}}_tab" data-toggle="tab" href="#{{user.username}}_tabpane" role="tab" aria-controls="{{user.username}}_tabpane" aria-selected="{{$first ? 'true' : 'false'}}" ng-click="changeUser(user.username)">
 							<div class="d-flex w-100 justify-content-between">
 								<h5 class="mb-1">{{user.name}}</h5>
 								<small>{{user.lastUpdated}}</small>
-							</div> <small>{{user.lastMessage | limitTo:
-								30}}{{user.lastMessage.length > 30 ? '...' : ''}}</small>
-						</a> <a ng-hide="connections.length > 0" href="#"
-							class="list-group-item disabled">
+							</div> 
+							<small>{{user.lastMessage | limitTo: 30}}{{user.lastMessage.length > 30 ? '...' : ''}}</small>
+						</a>
+						<a ng-hide="connections.length > 0" href="#" class="list-group-item disabled">
 							<div class="d-flex w-100 justify-content-between">
 								<h5 class="mb-1">No connections found</h5>
 								<small></small>
@@ -95,34 +84,26 @@
 				<div class="col-9">
 					<div class="col">
 						<div class="tab-content">
-							<div class="tab-pane" ng-repeat="user in connections"
-								ng-class="{'active': $first}" id="{{user.username}}_tabpane"
-								role="tabpanel" aria-labelledby="{{user.username}}_tab">
+							<div class="tab-pane" ng-repeat="user in connections" ng-class="{'active': $first}" id="{{user.username}}_tabpane" role="tabpanel" aria-labelledby="{{user.username}}_tab">
 								<div class="card h-100 mt-5">
 									<div class="card-header h3">{{user.name}}</div>
 									<div class="p-2" id="chatbox">
-										<div class="card-body p-0 mb-2"
-											ng-repeat="msg in user.chatMessages"
-											ng-class="{'text-right': msg.sender == username}">
+										<div class="card-body p-0 mb-2" ng-repeat="msg in user.chatMessages" ng-class="{'text-right': msg.sender == username}">
+											<div class="d-inline-block bg-light rounded rounded-pill p-2 border">{{msg.message}}</div><br>
 											<div
-												class="d-inline-block bg-light rounded rounded-pill p-2 border">{{msg.message}}</div>
-											<br>
-											<div
-												class="d-inline-block bg-secondary text-white rounded rounded-pill p-2">{{msg.translatedMessage}}</div>
+											class="d-inline-block bg-secondary text-white rounded rounded-pill p-2">{{msg.translatedMessage}}</div>
 										</div>
 									</div>
 									<div class="card-footer">
 										<div class="input-group">
 											<div class="input-group-prepend">
 												<button class="btn btn-primary" type="button" id="v-keyboard"
-													ng-click="showKeyboard()"><i class="fa fa-keyboard-o"></i></button>
+												ng-click="showKeyboard()"><i class="fa fa-keyboard-o"></i></button>
 											</div>
-											<input id="send-text" type="text" class="form-control"
-												placeholder="Enter message to send..."
-												ng-model="messageToSend">
+											<input id="send-text" type="text" class="form-control" placeholder="Enter message to send..." ng-model="messageToSend">
 											<div class="input-group-append">
 												<button class="btn btn-success" type="button" id="send-btn"
-													ng-click="sendMessage(messageToSend)">Send</button>
+												ng-click="sendMessage(messageToSend)">Send</button>
 											</div>
 										</div>
 									</div>
@@ -135,7 +116,7 @@
 									<div class="card-footer">
 										<div class="input-group">
 											<input id="send-text" type="text" class="form-control"
-												placeholder="Enter message to send..." readonly>
+											placeholder="Enter message to send..." readonly>
 											<div class="input-group-append">
 												<button class="btn btn-success disabled" type="button">Send</button>
 											</div>
@@ -149,15 +130,40 @@
 			</div>
 		</div>
 	</section>
-	<!-- #hero -->
 
+	<div class="modal fade" id="addConnectionModal" tabindex="-1" role="dialog" aria-labelledby="addConnectionModalTitle" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalCenterTitle">Add Connection</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="container">
+						<div class="row align-items-center" ng-repeat="user in userList">
+							<div class="col">{{user.firstName}}</div>
+							<div class="col" ng-init="user.clicked = false">
+								<div class="btn btn-primary px-3 py-2" ng-hide="user.clicked" ng-click="user.clicked=true; createConnection(user.userID, user.username, user.firstName)">Add Connection</div>
+								<div class="btn btn-primary px-5 py-2" ng-show="user.clicked"><i class="fa fa-spinner fa-pulse"></i></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary text-dark" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary">Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<script src="lib/jquery-3.4.1.min.js"></script>
 	<script src="lib/popper.min.js"></script>
 	<script src="lib/bootstrap.min.js"></script>
 	<script src="lib/angular.min.js"></script>
 	<script src="lib/sweetalert2.js"></script>
-	<script src="lib/jsapi.js"></script>
 	<script src="js/chat.js"></script>
 
 </body>
