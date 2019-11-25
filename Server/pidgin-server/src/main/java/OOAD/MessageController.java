@@ -2,6 +2,7 @@ package OOAD;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,16 +54,16 @@ public class MessageController {
 	}
 	
 	@MessageMapping("/sendall")
-	public String sendAllMessages(String userID, Principal principal) {
+	public void sendAllMessages(UserIdentityInfo userIdInfo, Principal principal) {		
 		String result = "error";
-		UserConnections userConn = new UserConnections(Integer.parseInt(userID), 0);
+		UserConnections userConn = new UserConnections(Integer.parseInt(userIdInfo.getUserID()), 0);
 		try {
 			result = FetchMessagesForUser(userConn);
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	
-		return result;
+		simpMessagingTemplate.convertAndSend("/user/" + userIdInfo.getUsername() + "/queue/private", result);
 	}
 	
 	@MessageMapping("/message")
@@ -136,6 +137,7 @@ public class MessageController {
 
         //Pass the parameter values
         query.setParameter(1, usrcon.getUserID());
+        List<String> lstUseridWithMsgs = new ArrayList();
         
         List<Object[]> s = query.getResultList();
         JSONArray ja = new JSONArray();
@@ -144,20 +146,20 @@ public class MessageController {
         JSONObject jsonObj = null;
         
         for (int i = 0; i < s.size(); i++) {
-        	System.out.println(" i = "+i);
+        	// System.out.println(" i = "+i);
         	jsonObj = new JSONObject();
 			Object o[] = s.get(i);
 			Object temp[] = s.get(i);
-	        System.out.println("1 0 - " + temp[0]);
-	        System.out.println("1 1 - " + temp[1]);
-	        System.out.println("1 2 - " + temp[2]);
-	        System.out.println("1 3 - " + temp[3]);
-	        System.out.println("1 4 - " + temp[4]);
-	        System.out.println("1 5 - " + temp[5]);
-	        System.out.println("1 6 - " + temp[6]);
-	        System.out.println("1 7 - " + temp[7]);
-	        System.out.println("1 8 - " + temp[8]);
-	        System.out.println("1 9 - " + temp[9]);
+	        // System.out.println("1 0 - " + temp[0]);
+	        // System.out.println("1 1 - " + temp[1]);
+	        // System.out.println("1 2 - " + temp[2]);
+	        // System.out.println("1 3 - " + temp[3]);
+	        // System.out.println("1 4 - " + temp[4]);
+	        // System.out.println("1 5 - " + temp[5]);
+	        // System.out.println("1 6 - " + temp[6]);
+	        // System.out.println("1 7 - " + temp[7]);
+	        // System.out.println("1 8 - " + temp[8]);
+	        // System.out.println("1 9 - " + temp[9]);
 
 			JSONObject chatmsg = new JSONObject();
 			//check logged in user logic username
@@ -168,22 +170,24 @@ public class MessageController {
 			for(j=i+1;j<s.size();j++) {
 				chatmsg = new JSONObject();
 				
-				System.out.println(" j = "+ j);
+				// System.out.println(" j = "+ j);
 				Object temp1[] = s.get(j);
-		        System.out.println("2 0 - " + temp1[0]);
-		        System.out.println("2 1 - " + temp1[1]);
-		        System.out.println("2 2 - " + temp1[2]);
-		        System.out.println("2 3 - " + temp1[3]);
-		        System.out.println("2 4 - " + temp1[4]);
-		        System.out.println("2 5 - " + temp1[5]);
-		        System.out.println("2 6 - " + temp1[6]);
-		        System.out.println("2 7 - " + temp1[7]);
-		        System.out.println("2 8 - " + temp1[8]);
-		        System.out.println("2 9 - " + temp1[9]);
+		        // System.out.println("2 0 - " + temp1[0]);
+		        // System.out.println("2 1 - " + temp1[1]);
+		        // System.out.println("2 2 - " + temp1[2]);
+		        // System.out.println("2 3 - " + temp1[3]);
+		        // System.out.println("2 4 - " + temp1[4]);
+		        // System.out.println("2 5 - " + temp1[5]);
+		        // System.out.println("2 6 - " + temp1[6]);
+		        // System.out.println("2 7 - " + temp1[7]);
+		        // System.out.println("2 8 - " + temp1[8]);
+		        // System.out.println("2 9 - " + temp1[9]);
 				if(threadno != (int)temp1[8]) {
 					break;
 				}
 				String recusername1 = (String)temp1[6]; //rec user name
+				
+				
 				
 				String senusername1 = (String)temp1[4];
 				String msg1 = (String)temp1[0];
@@ -195,25 +199,37 @@ public class MessageController {
 				chatmsg.put("translatedMessage", tran1);
 				threadno = (int)temp1[8];
 				chatmsg.put("threadno", threadno);
-				System.out.println(temp1.toString());
+				// System.out.println(temp1.toString());
 				ja.put(chatmsg);
 				jsonObj = new JSONObject();
 			}
 			
 			i = j-1;
 			o = s.get(i);
-			System.out.println("after " + i);
+			// System.out.println("after " + i);
 			if((String)o[9] == (String)o[6]) {
 				jsonObj.put("username",(String)o[4]);
 				jsonObj.put("name",(String)o[5]);
+				jsonObj.put("userID",(int)o[12]);
+				jsonObj.put("language",(String)o[13]);
+				lstUseridWithMsgs.add((String)o[4]);
 			}
 			else {
 				jsonObj.put("username",(String)o[6]);
 				jsonObj.put("name",(String)o[7]);
+				jsonObj.put("userID",(int)o[10]);
+				jsonObj.put("language",(String)o[11]);
+				lstUseridWithMsgs.add((String)o[6]);
 			}
+			String reclang = (String)o[11];//
+			int recuserid = (int)o[10];
+			
+//			jsonObj.put("name",(String)o[5]);
+//			jsonObj.put("name",(String)o[5]);
 
 			String recusername = (String)o[6]; //rec user name
 			String recfirstname = (String)o[7]; //rec first name
+			
 			
 			String senusername = (String)o[4];
 			String msg = (String)o[0];
@@ -229,7 +245,44 @@ public class MessageController {
 			FinalJson.put(jsonObj);
 			ja = new JSONArray();
 			
-		}        
+		}
+        
+        //fetch connections with no msgs
+        StoredProcedureQuery query1 = entityManager.createStoredProcedureQuery("fetch_connections"); 
+
+        query1.registerStoredProcedureParameter(1, Integer.class, ParameterMode.IN);
+
+        //Pass the parameter values
+        query1.setParameter(1, usrcon.getUserID());
+//        List<String> lstUseridWithMsgs = new ArrayList();
+        
+        List<Object[]> set1 = query1.getResultList();
+        for (int i = 0; i < set1.size(); i++) {
+        	// System.out.println("Insie for");
+			Object o[] = set1.get(i);
+			if(lstUseridWithMsgs.contains((String)o[1])) {
+				// System.out.println("Insie if");
+				continue;
+			}
+	        // System.out.println("3 0 - " + o[0]);
+	        // System.out.println("3 1 - " + o[1]);
+	        // System.out.println("3 2 - " + o[2]);
+	        // System.out.println("3 3 - " + o[3]);
+	        // System.out.println("3 4 - " + o[4]);
+			jsonObj = new JSONObject();
+			jsonObj.put("username",(String)o[1]);
+			// System.out.println("!");
+			jsonObj.put("name",(String)o[2]);
+			// System.out.println("!");
+			jsonObj.put("userID",(int)o[0]);
+			// System.out.println("!");
+			jsonObj.put("language",(String)o[4]);
+			// System.out.println("!");
+			jsonObj.put("chatMessages", "[]");
+			// System.out.println("!");
+			FinalJson.put(jsonObj);
+		}
+        
         return FinalJson.toString();
     }
 }
