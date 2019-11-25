@@ -21,87 +21,6 @@ app.controller('pidgin', ['$scope', '$http', function($scope, $http) {
 		'de': 'https://gate2home.com/German-Keyboard',
 		'fr': 'https://gate2home.com/French-Keyboard'
 	}
-	$scope.connections = [
-	{
-		username : 'user2',
-		name : 'New User',
-		language : 'es',
-		userID : 3,
-		lastMessage : "Yes, I'm on it. I'll send it as soon as I am done.",
-		lastUpdated : '3 days ago',
-		chatMessages : [
-		{
-			sender : 'h',
-			reciever : 'm',
-			userMessage : 'यह तुरंत किए जाने की आवश्यकता है',
-			translatedMessage : 'This needs to be done immediately',
-		},
-		{
-			sender : 'm',
-			reciever : 'h',
-			userMessage : "Yes, I'm on it. I'll send it as soon as I am done.",
-			translatedMessage : 'हां, मैं इस पर कायम हूं। मैं जैसे ही करूंगा, भेज दूंगा।'
-		}]
-	},
-	{
-		username : 'ysv',
-		name : 'Manuel',
-		language : 'en',
-		userID : 1,
-		lastMessage : "Yes, I'm on it. I'll send it as soon as I am done.",
-		lastUpdated : '4 days ago',
-		chatMessages : [
-		{
-			sender : 'n',
-			reciever : 'm',
-			userMessage : "Esto debe hacerse de inmediato",
-			translatedMessage : 'This needs to be done immediately',
-		},
-		{
-			sender : 'm',
-			reciever : 'n',
-			userMessage : "Yes, I'm on it. I'll send it as soon as I am done.",
-			translatedMessage : 'Sí, estoy en eso. Lo enviaré tan pronto como termine.'
-		}]
-	},
-	{
-		username : 'g',
-		name : 'George',
-		lastMessage : "Yes, I'm on it. I'll send it as soon as I am done.",
-		lastUpdated : '5 days ago',
-		chatMessages : [
-		{
-			sender : 'g',
-			reciever : 'm',
-			userMessage : "Dies muss sofort erfolgen",
-			translatedMessage : 'This needs to be done immediately',
-		},
-		{
-			sender : 'm',
-			reciever : 'g',
-			userMessage : "Yes, I'm on it. I'll send it as soon as I am done.",
-			translatedMessage : 'Ja, ich bin dabei. Ich werde es senden, sobald ich fertig bin.'
-		}]
-	},
-	{
-		username : 'k',
-		name : 'Karen',
-		lastMessage : "Yes, I'm on it. I'll send it as soon as I am done.",
-		lastUpdated : '6 days ago',
-		chatMessages : [
-		{
-			sender : 'k',
-			reciever : 'm',
-			userMessage : "ಇದನ್ನು ತಕ್ಷಣ ಮಾಡಬೇಕಾಗಿದೆ",
-			translatedMessage : 'This needs to be done immediately',
-		},
-		{
-			sender : 'm',
-			reciever : 'k',
-			userMessage : "Yes, I'm on it. I'll send it as soon as I am done.",
-			translatedMessage : 'ಹೌದು, ನಾನು ಅದರ ಮೇಲೆ ಇದ್ದೇನೆ. ನಾನು ಮುಗಿದ ತಕ್ಷಣ ಅದನ್ನು ಕಳುಹಿಸುತ್ತೇನೆ.'
-		}]
-	}];
 
 	function getCookie(cname) {
 		var name = cname + "=";
@@ -128,61 +47,66 @@ app.controller('pidgin', ['$scope', '$http', function($scope, $http) {
 			location.href = '/login';
 		}
 		$scope.connect();
-		if ($scope.connections.length > 0) {
-			$scope.selectedUser = $scope.connections[0];
-		}
 	};
 
 	$scope.onMessage = function(messageJson) {
-		console.log(messageJson);
 		var msgJson = JSON.parse(messageJson.body);
-		console.log(msgJson);
-		var index = $scope.getUserIndex($scope.selectedUser.username);
+		var index = $scope.getUserIndex(msgJson.senderUserName);
 		$scope.connections[index].chatMessages.push(msgJson);
 		$scope.connections[index].lastMessage = msgJson.userMessage;
 		$scope.connections[index].lastUpdated = 'Today';
-		$("#chatbox").animate({
-			scrollTop : $('#chatbox').get(0).scrollHeight
-		}, 1000);
-		$('.send-text').val('');
+		if($scope.selectedUser.username == msgJson.senderUserName) {
+			$("#chatbox").animate({
+				scrollTop : $('#chatbox').get(0).scrollHeight
+			}, 1000);
+		}
 		$scope.$digest();
-
 	}
+
+	$scope.onFetchAllMessages = function(messageJson) {
+		$scope.connections = JSON.parse(messageJson.body);
+		if ($scope.connections.length > 0) {
+			$scope.selectedUser = $scope.connections[0];
+		}
+		$scope.$digest();
+	}
+
 	$scope.connect = function() {
 		var current_url = location.origin;
 		if(current_url.includes('?'))
-		    current_url = current_url.split('?')[0]
+			current_url = current_url.split('?')[0]
 		if(current_url.split(':')[0]=='https')
-		    var websocket_url = current_url.replace(/https/, 'wss')
+			var websocket_url = current_url.replace(/https/, 'wss')
 		else
-		    var websocket_url = current_url.replace(/http/, 'ws')
+			var websocket_url = current_url.replace(/http/, 'ws')
 		if (websocket_url[websocket_url.length-1] == '/')
-		    websocket_url += 'chatroom'
+			websocket_url += 'chatroom'
 		else if(websocket_url[websocket_url.length-1] == '#'){
-		    websocket_url = websocket_url.slice(0,-1)
-		    if (websocket_url[websocket_url.length-1] == '/')
-		        websocket_url += 'chatroom'
-		    else
-		        websocket_url += '/chatroom'
+			websocket_url = websocket_url.slice(0,-1)
+			if (websocket_url[websocket_url.length-1] == '/')
+				websocket_url += 'chatroom'
+			else
+				websocket_url += '/chatroom'
 		}
 		else
-		    websocket_url += '/chatroom'
+			websocket_url += '/chatroom'
 		$scope.websocket = Stomp.client(websocket_url);
 		$scope.websocket.connect({
 			'username': $scope.loggedInUser.username
 		}, function() {
+			var userInfo = {
+				'username': $scope.loggedInUser.username,
+				'userID': $scope.loggedInUser.userID
+			};
 			$scope.websocket.subscribe("/topic/chatroom", function(message) {
 				console.log(message);
 			});
 			$scope.websocket.subscribe("/user/queue/private", $scope.onMessage);
-			$scope.websocket.send("/app/sendall", {}, $scope.loggedInUser.userID);
+			$scope.websocket.subscribe("/user/queue/allmessages", $scope.onFetchAllMessages);
+			$scope.websocket.send("/app/sendall", {}, JSON.stringify(userInfo));
 		}, function(error) {
 			console.log(error);
 		});
-
-		$scope.websocket.onmessage = function(data) {
-
-		}
 		$scope.loading = false;
 	}
 
@@ -272,6 +196,7 @@ app.controller('pidgin', ['$scope', '$http', function($scope, $http) {
 			'userMessage' : msg,
 		}
 		$scope.websocket.send("/app/message", {}, JSON.stringify(data));
+		$('.send-text').val('');
 	}
 
 	$scope.showKeyboard = function() {

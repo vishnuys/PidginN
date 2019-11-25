@@ -57,7 +57,7 @@
 	<section ng-hide="loading" id="hero" class="wow fadeIn">
 		<div class="container-fluid">
 			<div class="row">
-				<div class="col-3 p-3">
+				<div class="col-md-3 p-md-3">
 					<div class="input-group mb-3">
 						<div class="input-group-append">
 							<span class="input-group-text" id="basic-addon2"><i class="fa fa-search"></i></span>
@@ -81,8 +81,8 @@
 						</a>
 					</div>
 				</div>
-				<div class="col-9">
-					<div class="col">
+				<div class="col-md-9 px-md-2 px-0">
+					<div class="col px-md-2">
 						<div class="tab-content">
 							<div class="tab-pane" ng-repeat="user in connections" ng-class="{'active': $first}" id="{{user.username}}_tabpane" role="tabpanel" aria-labelledby="{{user.username}}_tab">
 								<div class="card h-100 mt-5">
@@ -97,13 +97,13 @@
 									<div class="card-footer">
 										<div class="input-group">
 											<div class="input-group-prepend">
-												<a href="{{vKeyboard[lang]}}" target="_blank" class="btn btn-primary" id="v-keyboard">
+												<a href="{{vKeyboard[lang]}}" target="_blank" class="btn btn-primary px-2 px-md-4" id="v-keyboard">
 													<i class="fa fa-keyboard-o"></i>
 												</a>
 											</div>
 											<input type="text" class="form-control send-text" placeholder="Enter message to send..." ng-model="messageToSend">
 											<div class="input-group-append">
-												<button class="btn btn-success" type="button" id="send-btn"
+												<button class="btn btn-success px-2 px-md-4" type="button" id="send-btn"
 												ng-click="sendMessage(messageToSend)">Send</button>
 											</div>
 										</div>

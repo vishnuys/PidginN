@@ -21,7 +21,7 @@ CREATE TABLE UserConnections (
     UserID INT NULL,
     ConnectionUserID INT NULL,
     ThreadID INT,
-     FOREIGN KEY (UserID) REFERENCES UserDetails(UserID)
+     FOREIGN KEY (UserID) REFERENCES UserDetails(UserID) ON DELETE CASCADE
 );
 insert into UserConnections(UserID,ConnectionUserID,ThreadID) values(null,NULL,0);
 
@@ -44,7 +44,7 @@ CREATE TABLE GroupMembers (
     IsAdmin BOOL,
     UserAddedBy INT,
     UserAddedOn TIMESTAMP,
-     FOREIGN KEY (GroupId) REFERENCES Group1(GroupId)
+     FOREIGN KEY (GroupId) REFERENCES Group1(GroupId) ON DELETE CASCADE
 -- FOREIGN KEY (MappedUserIds) REFERENCES UserDetails(UserID)
 );
 
@@ -58,7 +58,7 @@ CREATE TABLE UserMessageMapping(
     IsDirectMessage BOOL,
     GroupId INT,
     IsDeleted BOOL,
-    FOREIGN KEY (SenderUserId) REFERENCES UserDetails(UserID)  
+    FOREIGN KEY (SenderUserId) REFERENCES UserDetails(UserID) ON DELETE CASCADE
 );
 
 CREATE TABLE  TranslatedMessage(
@@ -67,9 +67,5 @@ CREATE TABLE  TranslatedMessage(
     SenderMessage NVARCHAR(5000),
     TranslatedMessage NVARCHAR(5000),
 	TranslatedMessageID INT,
-	FOREIGN KEY (TranslatedMessageID) REFERENCES UserMessageMapping(TranslatedMessageID) 
+	FOREIGN KEY (TranslatedMessageID) REFERENCES UserMessageMapping(TranslatedMessageID) ON DELETE CASCADE
 );
-
-
-
-
