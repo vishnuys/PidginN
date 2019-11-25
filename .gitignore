@@ -2,6 +2,7 @@
 Server/pidgin-server/target/
 Server/pidgin-server/.settings/
 Server/pidgin-server/.classpath/
+application.properties
 
 # File system index files
 *.DS_Store

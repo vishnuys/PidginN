@@ -1,9 +1,9 @@
 CREATE DEFINER=`root`@`localhost` PROCEDURE `fetchloggedinuserdetails`(
-IN username VARCHAR(100)
+IN username1 VARCHAR(100)
 )
 BEGIN
 
-	select UserID,UserName,FirstName,LastName,PreferedLanguage,ContactNo
-    from UserDetails WHERE UserName = username; 
+	select UserID,UserName,FirstName,LastName,PreferedLanguage,EmailID
+    from UserDetails WHERE UserName = username1; 
 
 END
