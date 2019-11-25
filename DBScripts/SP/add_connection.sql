@@ -16,5 +16,6 @@ BEGIN
 			SELECT MAX(ThreadID) into @VARTHREADID FROM USERCONNECTIONS;
 			set @VARTHREADID = @VARTHREADID +1;
 			INSERT INTO UserConnections(UserID,ConnectionUserID, ThreadID) values(VARUserID,VARConnectionUserID,@VARTHREADID);
+            INSERT INTO UserConnections(UserID,ConnectionUserID, ThreadID) values(VARConnectionUserID,VARUserID,@VARTHREADID);
     END IF;
 END

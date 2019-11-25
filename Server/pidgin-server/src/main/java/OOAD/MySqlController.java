@@ -272,6 +272,7 @@ public class MySqlController {
 
         //Pass the parameter values
         query.setParameter(1, usrcon.getUserID());
+        List<String> lstUseridWithMsgs = new ArrayList();
         
         List<Object[]> s = query.getResultList();
         JSONArray ja = new JSONArray();
@@ -321,6 +322,8 @@ public class MySqlController {
 				}
 				String recusername1 = (String)temp1[6]; //rec user name
 				
+				
+				
 				String senusername1 = (String)temp1[4];
 				String msg1 = (String)temp1[0];
 				String tran1 = (String)temp1[1];
@@ -344,18 +347,20 @@ public class MySqlController {
 				jsonObj.put("name",(String)o[5]);
 				jsonObj.put("userID",(int)o[12]);
 				jsonObj.put("language",(String)o[13]);
+				lstUseridWithMsgs.add((String)o[4]);
 			}
 			else {
 				jsonObj.put("username",(String)o[6]);
 				jsonObj.put("name",(String)o[7]);
 				jsonObj.put("userID",(int)o[10]);
 				jsonObj.put("language",(String)o[11]);
+				lstUseridWithMsgs.add((String)o[6]);
 			}
 			String reclang = (String)o[11];//
 			int recuserid = (int)o[10];
 			
-			jsonObj.put("name",(String)o[5]);
-			jsonObj.put("name",(String)o[5]);
+//			jsonObj.put("name",(String)o[5]);
+//			jsonObj.put("name",(String)o[5]);
 
 			String recusername = (String)o[6]; //rec user name
 			String recfirstname = (String)o[7]; //rec first name
@@ -375,7 +380,44 @@ public class MySqlController {
 			FinalJson.put(jsonObj);
 			ja = new JSONArray();
 			
-		}        
+		}
+        
+        //fetch connections with no msgs
+        StoredProcedureQuery query1 = entityManager.createStoredProcedureQuery("fetch_connections"); 
+
+        query1.registerStoredProcedureParameter(1, Integer.class, ParameterMode.IN);
+
+        //Pass the parameter values
+        query1.setParameter(1, usrcon.getUserID());
+//        List<String> lstUseridWithMsgs = new ArrayList();
+        
+        List<Object[]> set1 = query1.getResultList();
+        for (int i = 0; i < set1.size(); i++) {
+        	System.out.println("Insie for");
+			Object o[] = set1.get(i);
+			if(lstUseridWithMsgs.contains((String)o[1])) {
+				System.out.println("Insie if");
+				continue;
+			}
+	        System.out.println("3 0 - " + o[0]);
+	        System.out.println("3 1 - " + o[1]);
+	        System.out.println("3 2 - " + o[2]);
+	        System.out.println("3 3 - " + o[3]);
+	        System.out.println("3 4 - " + o[4]);
+			jsonObj = new JSONObject();
+			jsonObj.put("username",(String)o[1]);
+			System.out.println("!");
+			jsonObj.put("name",(String)o[2]);
+			System.out.println("!");
+			jsonObj.put("userID",(int)o[0]);
+			System.out.println("!");
+			jsonObj.put("language",(String)o[4]);
+			System.out.println("!");
+			jsonObj.put("chatMessages", "[]");
+			System.out.println("!");
+			FinalJson.put(jsonObj);
+		}
+        
         return FinalJson.toString();
     }
 	
