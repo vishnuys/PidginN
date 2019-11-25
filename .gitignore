@@ -1,6 +1,5 @@
 # Build target files
-Server/pidgin-server/target/
-Server/pidgin-server/.settings/
+target/
 Server/pidgin-server/.classpath/
 application.properties
 
