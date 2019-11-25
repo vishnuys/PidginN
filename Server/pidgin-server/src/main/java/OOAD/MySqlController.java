@@ -285,22 +285,22 @@ public class MySqlController {
         	jsonObj = new JSONObject();
 			Object o[] = s.get(i);
 			Object temp[] = s.get(i);
-//	        System.out.println("1 0 - " + temp[0]);
-//	        System.out.println("1 1 - " + temp[1]);
-//	        System.out.println("1 2 - " + temp[2]);
-//	        System.out.println("1 3 - " + temp[3]);
-//	        System.out.println("1 4 - " + temp[4]);
-//	        System.out.println("1 5 - " + temp[5]);
-//	        System.out.println("1 6 - " + temp[6]);
-//	        System.out.println("1 7 - " + temp[7]);
-//	        System.out.println("1 8 - " + temp[8]);
-//	        System.out.println("1 9 - " + temp[9]);
+	        System.out.println("1 0 - " + temp[0]);
+	        System.out.println("1 1 - " + temp[1]);
+	        System.out.println("1 2 - " + temp[2]);
+	        System.out.println("1 3 - " + temp[3]);
+	        System.out.println("1 4 - " + temp[4]);
+	        System.out.println("1 5 - " + temp[5]);
+	        System.out.println("1 6 - " + temp[6]);
+	        System.out.println("1 7 - " + temp[7]);
+	        System.out.println("1 8 - " + temp[8]);
+	        System.out.println("1 9 - " + temp[9]);
 
 			JSONObject chatmsg = new JSONObject();
 			//check logged in user logic username
 			
-//			System.out.println("1");
-			if((String)o[9] == (String)o[6]) {
+			System.out.println("1");
+			if(o[9].toString().equals(o[6].toString())) {
 				jsonObj.put("username",(String)o[4]);
 				jsonObj.put("name",(String)o[5]);
 				jsonObj.put("userID",(int)o[12]);
@@ -340,16 +340,16 @@ public class MySqlController {
 				
 				System.out.println(" j = "+ j);
 				Object temp1[] = s.get(j);
-//		        System.out.println("2 0 - " + temp1[0]);
-//		        System.out.println("2 1 - " + temp1[1]);
-//		        System.out.println("2 2 - " + temp1[2]);
-//		        System.out.println("2 3 - " + temp1[3]);
-//		        System.out.println("2 4 - " + temp1[4]);
-//		        System.out.println("2 5 - " + temp1[5]);
-//		        System.out.println("2 6 - " + temp1[6]);
-//		        System.out.println("2 7 - " + temp1[7]);
-//		        System.out.println("2 8 - " + temp1[8]);
-//		        System.out.println("2 9 - " + temp1[9]);
+		        System.out.println("2 0 - " + temp1[0]);
+		        System.out.println("2 1 - " + temp1[1]);
+		        System.out.println("2 2 - " + temp1[2]);
+		        System.out.println("2 3 - " + temp1[3]);
+		        System.out.println("2 4 - " + temp1[4]);
+		        System.out.println("2 5 - " + temp1[5]);
+		        System.out.println("2 6 - " + temp1[6]);
+		        System.out.println("2 7 - " + temp1[7]);
+		        System.out.println("2 8 - " + temp1[8]);
+		        System.out.println("2 9 - " + temp1[9]);
 				if(threadno != (int)temp1[8]) {
 					break;
 				}
@@ -400,11 +400,11 @@ public class MySqlController {
 				System.out.println("Insie if");
 				continue;
 			}
-//	        System.out.println("3 0 - " + o[0]);
-//	        System.out.println("3 1 - " + o[1]);
-//	        System.out.println("3 2 - " + o[2]);
-//	        System.out.println("3 3 - " + o[3]);
-//	        System.out.println("3 4 - " + o[4]);
+	        System.out.println("3 0 - " + o[0]);
+	        System.out.println("3 1 - " + o[1]);
+	        System.out.println("3 2 - " + o[2]);
+	        System.out.println("3 3 - " + o[3]);
+	        System.out.println("3 4 - " + o[4]);
 			jsonObj = new JSONObject();
 			jsonObj.put("username",(String)o[1]);
 			jsonObj.put("name",(String)o[2]);
