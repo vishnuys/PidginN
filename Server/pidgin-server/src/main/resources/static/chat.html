@@ -88,8 +88,8 @@
 								<div class="card h-100 mt-5">
 									<div class="card-header h3">{{user.name}}</div>
 									<div class="p-2" id="chatbox">
-										<div class="card-body p-0 mb-2" ng-repeat="msg in user.chatMessages" ng-class="{'text-right': msg.sender == username}">
-											<div class="d-inline-block bg-light rounded rounded-pill p-2 border">{{msg.message}}</div><br>
+										<div class="card-body p-0 mb-2" ng-repeat="msg in user.chatMessages" ng-class="{'text-right': msg.senderUserName == username}">
+											<div class="d-inline-block bg-light rounded rounded-pill p-2 border">{{msg.userMessage}}</div><br>
 											<div
 											class="d-inline-block bg-secondary text-white rounded rounded-pill p-2">{{msg.translatedMessage}}</div>
 										</div>

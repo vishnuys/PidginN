@@ -40,37 +40,6 @@ import OOAD.Entities.UserMessageMapping;
 @Controller
 public class MessageController {
 	
-	public class SenderMessage {
-		public String senderLang;
-		public String recieverLang;
-		public String userMessage;
-		public String senderUserID;
-		public String senderUserName;
-		public String recieverUserID;
-		public String recieverUserName;
-		
-		SenderMessage() {}
-		SenderMessage(SenderMessage m) {
-			this.senderLang = m.senderLang;
-			this.recieverLang = m.recieverLang;
-			this.userMessage = m.userMessage;
-			this.senderUserID = m.senderUserID;
-			this.senderUserName = m.senderUserName;
-			this.recieverUserID = m.recieverUserID;
-			this.recieverUserName = m.recieverUserName;
-		}
-	}
-
-	public class RecieverMessage extends SenderMessage{
-		public String translatedMessage;
-		
-		RecieverMessage(SenderMessage sender,String translatedMessage) {
-			super(sender);
-			this.translatedMessage = translatedMessage; 
-		}
-	}
-	
-	
 	@Autowired
 	private EntityManager entityManager;
 	
@@ -98,14 +67,15 @@ public class MessageController {
 	
 	@MessageMapping("/message")
 	public void privateMessage(String messageJson, Principal principal) throws JsonParseException, JsonMappingException, IOException {
-
+		
+		System.out.println(messageJson);
 		ObjectMapper mapper = new ObjectMapper();
 		SenderMessage sendm = mapper.readValue(messageJson, SenderMessage.class);
 		
 		String translatedMessage;
 		@SuppressWarnings("deprecation")
 		Translate translate = TranslateOptions.newBuilder().setApiKey("AIzaSyAiRYBhdm3LPeKeq-ClxWERz_vAMPcX2Rw").build().getService();
-		Translation translation = translate.translate(sendm.recieverLang, TranslateOption.sourceLanguage(sendm.senderLang),
+		Translation translation = translate.translate(sendm.userMessage, TranslateOption.sourceLanguage(sendm.senderLang),
 				TranslateOption.targetLanguage(sendm.recieverLang));
 		translatedMessage = translation.getTranslatedText();
 		
@@ -116,7 +86,7 @@ public class MessageController {
 		
 		RecieverMessage recvm = new RecieverMessage(sendm, translatedMessage);
 		SaveMessage(msg);
-		simpMessagingTemplate.convertAndSendToUser(recvm.recieverUserName,"/queue/private" , recvm);
+		simpMessagingTemplate.convertAndSend("/user/" + recvm.recieverUserName + "/queue/private", recvm);
 	}
 	
 	public Boolean SaveMessage(Message message) {
@@ -144,7 +114,8 @@ public class MessageController {
         //Pass the parameter values
         query.setParameter(1, userMessageMapping.getSenderUserId());
         query.setParameter(2, userMessageMapping.getRecieverUserId());
-        query.setParameter(3, userMessageMapping.getIsDirectMessage());
+        query.setParameter(3, true);
+        //query.setParameter(3, userMessageMapping.getIsDirectMessage());
         query.setParameter(4, userMessageMapping.getGroupId());
         query.setParameter(5, translatedMessage.getCultureCode());
         query.setParameter(6, translatedMessage.getSenderMessage());
