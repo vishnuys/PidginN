@@ -130,7 +130,7 @@ app.controller('pidgin', ['$scope', '$http', function($scope, $http) {
 		
 		$scope.websocket = Stomp.client('ws://localhost:8080/chatroom');
 		$scope.websocket.connect({
-			username: $scope.loggedInUser.username
+			'username': $scope.loggedInUser.username
 		}, function() {
 			$scope.websocket.subscribe("/topic/chatroom", function(message) {
 				console.log(message);
