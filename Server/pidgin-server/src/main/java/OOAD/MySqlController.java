@@ -285,63 +285,21 @@ public class MySqlController {
         	jsonObj = new JSONObject();
 			Object o[] = s.get(i);
 			Object temp[] = s.get(i);
-	        System.out.println("1 0 - " + temp[0]);
-	        System.out.println("1 1 - " + temp[1]);
-	        System.out.println("1 2 - " + temp[2]);
-	        System.out.println("1 3 - " + temp[3]);
-	        System.out.println("1 4 - " + temp[4]);
-	        System.out.println("1 5 - " + temp[5]);
-	        System.out.println("1 6 - " + temp[6]);
-	        System.out.println("1 7 - " + temp[7]);
-	        System.out.println("1 8 - " + temp[8]);
-	        System.out.println("1 9 - " + temp[9]);
+//	        System.out.println("1 0 - " + temp[0]);
+//	        System.out.println("1 1 - " + temp[1]);
+//	        System.out.println("1 2 - " + temp[2]);
+//	        System.out.println("1 3 - " + temp[3]);
+//	        System.out.println("1 4 - " + temp[4]);
+//	        System.out.println("1 5 - " + temp[5]);
+//	        System.out.println("1 6 - " + temp[6]);
+//	        System.out.println("1 7 - " + temp[7]);
+//	        System.out.println("1 8 - " + temp[8]);
+//	        System.out.println("1 9 - " + temp[9]);
 
 			JSONObject chatmsg = new JSONObject();
 			//check logged in user logic username
 			
 //			System.out.println("1");
-			int j;
-			int threadno=(int)o[8];
-			for(j=i+1;j<s.size();j++) {
-				chatmsg = new JSONObject();
-				
-				System.out.println(" j = "+ j);
-				Object temp1[] = s.get(j);
-		        System.out.println("2 0 - " + temp1[0]);
-		        System.out.println("2 1 - " + temp1[1]);
-		        System.out.println("2 2 - " + temp1[2]);
-		        System.out.println("2 3 - " + temp1[3]);
-		        System.out.println("2 4 - " + temp1[4]);
-		        System.out.println("2 5 - " + temp1[5]);
-		        System.out.println("2 6 - " + temp1[6]);
-		        System.out.println("2 7 - " + temp1[7]);
-		        System.out.println("2 8 - " + temp1[8]);
-		        System.out.println("2 9 - " + temp1[9]);
-				if(threadno != (int)temp1[8]) {
-					break;
-				}
-				String recusername1 = (String)temp1[6]; //rec user name
-				
-				
-				
-				String senusername1 = (String)temp1[4];
-				String msg1 = (String)temp1[0];
-				String tran1 = (String)temp1[1];
-				
-				chatmsg.put("sender", senusername1);
-				chatmsg.put("receiver", recusername1);
-				chatmsg.put("message", msg1);
-				chatmsg.put("translatedMessage", tran1);
-				threadno = (int)temp1[8];
-				chatmsg.put("threadno", threadno);
-				System.out.println(temp1.toString());
-				ja.put(chatmsg);
-				jsonObj = new JSONObject();
-			}
-			
-			i = j-1;
-			o = s.get(i);
-			System.out.println("after " + i);
 			if((String)o[9] == (String)o[6]) {
 				jsonObj.put("username",(String)o[4]);
 				jsonObj.put("name",(String)o[5]);
@@ -356,11 +314,9 @@ public class MySqlController {
 				jsonObj.put("language",(String)o[11]);
 				lstUseridWithMsgs.add((String)o[6]);
 			}
+			int j;
 			String reclang = (String)o[11];//
-			int recuserid = (int)o[10];
-			
-//			jsonObj.put("name",(String)o[5]);
-//			jsonObj.put("name",(String)o[5]);
+			int recuserid = (int)o[10];	
 
 			String recusername = (String)o[6]; //rec user name
 			String recfirstname = (String)o[7]; //rec first name
@@ -370,12 +326,57 @@ public class MySqlController {
 			String msg = (String)o[0];
 			String tran = (String)o[1];
 			
-			chatmsg.put("sender", senusername);
-			chatmsg.put("receiver", recusername);
-			chatmsg.put("message", msg);
+			chatmsg.put("senderUserName", senusername);
+			chatmsg.put("recieverUserName", recusername);
+			chatmsg.put("userMessage", msg);
 			chatmsg.put("translatedMessage", tran);
+
+			int threadno=(int)o[8];
 			threadno = (int)o[8];
 			ja.put(chatmsg);
+//			System.out.println("Modified Code");
+			for(j=i+1;j<s.size();j++) {
+				chatmsg = new JSONObject();
+				
+				System.out.println(" j = "+ j);
+				Object temp1[] = s.get(j);
+//		        System.out.println("2 0 - " + temp1[0]);
+//		        System.out.println("2 1 - " + temp1[1]);
+//		        System.out.println("2 2 - " + temp1[2]);
+//		        System.out.println("2 3 - " + temp1[3]);
+//		        System.out.println("2 4 - " + temp1[4]);
+//		        System.out.println("2 5 - " + temp1[5]);
+//		        System.out.println("2 6 - " + temp1[6]);
+//		        System.out.println("2 7 - " + temp1[7]);
+//		        System.out.println("2 8 - " + temp1[8]);
+//		        System.out.println("2 9 - " + temp1[9]);
+				if(threadno != (int)temp1[8]) {
+					break;
+				}
+				String recusername1 = (String)temp1[6]; //rec user name
+				
+				
+				
+				String senusername1 = (String)temp1[4];
+				String msg1 = (String)temp1[0];
+				String tran1 = (String)temp1[1];
+				
+				chatmsg.put("senderUserName", senusername1);
+				chatmsg.put("recieverUserName", recusername1);
+				chatmsg.put("userMessage", msg1);
+				chatmsg.put("translatedMessage", tran1);
+				threadno = (int)temp1[8];
+				chatmsg.put("threadno", threadno);
+				System.out.println(temp1.toString());
+				ja.put(chatmsg);
+				//jsonObj = new JSONObject();
+			}
+			
+			i = j-1;
+			o = s.get(i);
+//			System.out.println("after " + i);
+			
+			
 			jsonObj.put("chatMessages", ja);
 			FinalJson.put(jsonObj);
 			ja = new JSONArray();
@@ -399,22 +400,17 @@ public class MySqlController {
 				System.out.println("Insie if");
 				continue;
 			}
-	        System.out.println("3 0 - " + o[0]);
-	        System.out.println("3 1 - " + o[1]);
-	        System.out.println("3 2 - " + o[2]);
-	        System.out.println("3 3 - " + o[3]);
-	        System.out.println("3 4 - " + o[4]);
+//	        System.out.println("3 0 - " + o[0]);
+//	        System.out.println("3 1 - " + o[1]);
+//	        System.out.println("3 2 - " + o[2]);
+//	        System.out.println("3 3 - " + o[3]);
+//	        System.out.println("3 4 - " + o[4]);
 			jsonObj = new JSONObject();
 			jsonObj.put("username",(String)o[1]);
-			System.out.println("!");
 			jsonObj.put("name",(String)o[2]);
-			System.out.println("!");
 			jsonObj.put("userID",(int)o[0]);
-			System.out.println("!");
 			jsonObj.put("language",(String)o[4]);
-			System.out.println("!");
-			jsonObj.put("chatMessages", "[]");
-			System.out.println("!");
+			jsonObj.put("chatMessages", new JSONArray());
 			FinalJson.put(jsonObj);
 		}
         
