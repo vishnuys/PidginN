@@ -85,8 +85,10 @@ public class MessageController {
 		
 		
 		RecieverMessage recvm = new RecieverMessage(sendm, translatedMessage);
-		SaveMessage(msg);
+		simpMessagingTemplate.convertAndSend("/user/" + recvm.senderUserName + "/queue/private", recvm);
 		simpMessagingTemplate.convertAndSend("/user/" + recvm.recieverUserName + "/queue/private", recvm);
+		SaveMessage(msg);
+
 	}
 	
 	public Boolean SaveMessage(Message message) {

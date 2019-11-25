@@ -2,6 +2,7 @@ var app = angular.module('OOAD', []);
 app.controller('pidgin', ['$scope', '$http', function($scope, $http) {
 	$scope.loading = true;
 	$scope.username = getCookie('username');
+	$scope.lang = getCookie('language');
 	$scope.loggedInUser = {
 		'username': getCookie('username'),
 		'userID': getCookie('userID'),
@@ -13,6 +14,13 @@ app.controller('pidgin', ['$scope', '$http', function($scope, $http) {
 	$scope.websocket = '';
 	$scope.userList = [];
 	$scope.connections = [];
+	$scope.vKeyboard = {
+		'es': 'https://gate2home.com/Spanish-Keyboard',
+		'en': 'https://gate2home.com/English-Keyboard',
+		'hi': 'https://gate2home.com/Hindi-Keyboard',
+		'de': 'https://gate2home.com/German-Keyboard',
+		'fr': 'https://gate2home.com/French-Keyboard'
+	}
 	$scope.connections = [
 	{
 		username : 'user2',
@@ -131,10 +139,12 @@ app.controller('pidgin', ['$scope', '$http', function($scope, $http) {
 		console.log(msgJson);
 		var index = $scope.getUserIndex($scope.selectedUser.username);
 		$scope.connections[index].chatMessages.push(msgJson);
+		$scope.connections[index].lastMessage = msgJson.userMessage;
+		$scope.connections[index].lastUpdated = 'Today';
 		$("#chatbox").animate({
 			scrollTop : $('#chatbox').get(0).scrollHeight
 		}, 1000);
-		$('#send-text').val('');
+		$('.send-text').val('');
 		$scope.$digest();
 
 	}
@@ -262,17 +272,10 @@ app.controller('pidgin', ['$scope', '$http', function($scope, $http) {
 			'userMessage' : msg,
 		}
 		$scope.websocket.send("/app/message", {}, JSON.stringify(data));
-		$scope.connections[index].chatMessages.push(data);
-		$scope.connections[index].lastMessage = msg;
-		$scope.connections[index].lastUpdated = 'Today';
-		$("#chatbox").animate({
-			scrollTop : $('#chatbox').get(0).scrollHeight
-		}, 1000);
-		$('#send-text').val('');
 	}
 
 	$scope.showKeyboard = function() {
-		var win = open('https://gate2home.com/Hindi-Keyboard', 'Virtual Keyboard');
+		var win = open($scope.vKeyboard[$scope.lang], 'Virtual Keyboard');
 	}
 
 	$scope.print = function(msg) {
