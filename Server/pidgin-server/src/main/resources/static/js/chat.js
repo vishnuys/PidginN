@@ -51,15 +51,15 @@ app.controller('pidgin', ['$scope', '$http', function($scope, $http) {
 
 	$scope.onMessage = function(messageJson) {
 		var msgJson = JSON.parse(messageJson.body);
-		var index = $scope.getUserIndex(msgJson.senderUserName);
+		if($scope.selectedUser.username == msgJson.senderUserName) {
+			var index = $scope.getUserIndex(msgJson.recieverUserName);
+		}
+		else {
+			var index = $scope.getUserIndex(msgJson.recieverUserName);
+		}
 		$scope.connections[index].chatMessages.push(msgJson);
 		$scope.connections[index].lastMessage = msgJson.userMessage;
 		$scope.connections[index].lastUpdated = 'Today';
-		if($scope.selectedUser.username == msgJson.senderUserName) {
-			$("#chatbox").animate({
-				scrollTop : $('#chatbox').get(0).scrollHeight
-			}, 1000);
-		}
 		$scope.$digest();
 	}
 
