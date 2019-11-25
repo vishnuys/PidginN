@@ -2,6 +2,7 @@ package OOAD;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,16 +54,16 @@ public class MessageController {
 	}
 	
 	@MessageMapping("/sendall")
-	public String sendAllMessages(String userID, Principal principal) {
+	public void sendAllMessages(UserIdentityInfo userIdInfo, Principal principal) {		
 		String result = "error";
-		UserConnections userConn = new UserConnections(Integer.parseInt(userID), 0);
+		UserConnections userConn = new UserConnections(Integer.parseInt(userIdInfo.getUserID()), 0);
 		try {
 			result = FetchMessagesForUser(userConn);
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	
-		return result;
+		simpMessagingTemplate.convertAndSend("/user/" + userIdInfo.getUsername() + "/queue/private", result);
 	}
 	
 	@MessageMapping("/message")
