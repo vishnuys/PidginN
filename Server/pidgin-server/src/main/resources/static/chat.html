@@ -97,10 +97,11 @@
 									<div class="card-footer">
 										<div class="input-group">
 											<div class="input-group-prepend">
-												<button class="btn btn-primary" type="button" id="v-keyboard"
-												ng-click="showKeyboard()"><i class="fa fa-keyboard-o"></i></button>
+												<a href="{{vKeyboard[lang]}}" target="_blank" class="btn btn-primary" id="v-keyboard">
+													<i class="fa fa-keyboard-o"></i>
+												</a>
 											</div>
-											<input id="send-text" type="text" class="form-control" placeholder="Enter message to send..." ng-model="messageToSend">
+											<input type="text" class="form-control send-text" placeholder="Enter message to send..." ng-model="messageToSend">
 											<div class="input-group-append">
 												<button class="btn btn-success" type="button" id="send-btn"
 												ng-click="sendMessage(messageToSend)">Send</button>
