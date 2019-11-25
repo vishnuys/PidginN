@@ -28,11 +28,23 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer{
 			  .enableSimpleBroker("/topic","/queue");
 	}
 	
+	private class StompPrincipal implements Principal {
+	    private String name;
+	    StompPrincipal(String name) {
+	        this.name = name;
+	    }
+
+	    @Override
+	    public String getName() {
+	        return name;
+	    }
+	}
+	
 	private class UsernameHandshakeHandler extends DefaultHandshakeHandler {
 		protected Principal determineUser(ServerHttpRequest request, WebSocketHandler wsHandler,
 				Map<String, Object> attributes) {
 			String username = (String) attributes.get("username");
-			return new UsernamePasswordAuthenticationToken(username, null);
+			return new StompPrincipal(username);
 		}
 	}
 }
