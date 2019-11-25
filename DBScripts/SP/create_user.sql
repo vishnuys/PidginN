@@ -4,7 +4,7 @@ IN varFirstName VARCHAR(50),
 IN varLastName VARCHAR(50),
 IN varPasswordHash VARCHAR(500),
 IN varPreferedLanguage VARCHAR(10),
-IN varEmailID VARCHAR(10)
+IN varEmailID VARCHAR(200)
 )
 BEGIN
 
