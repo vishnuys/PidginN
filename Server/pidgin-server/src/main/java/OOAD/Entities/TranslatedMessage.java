@@ -11,6 +11,9 @@ public class TranslatedMessage {
 	
 	private String translatedMessage;
 	
+	public TranslatedMessage() {
+		
+	}
 	
 	public TranslatedMessage(String cultureCode, String senderMessage, String translatedMessage) {
 		this.cultureCode = cultureCode;

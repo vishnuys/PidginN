@@ -24,7 +24,7 @@ public class UserDetails {
 	
 	private String preferredLanguage;
 	
-	private String EmailID;
+	private String contactNo;
 	
 	private Date CreatedOn;
 	
@@ -36,7 +36,7 @@ public class UserDetails {
 		// TODO Auto-generated constructor stub
 	}
 	public UserDetails(int userID, String username, String firstName, String lastName, String password,
-			String preferredLanguage, String EmailID, Date createdOn, Date updatedOn) {
+			String preferredLanguage, String contactNo, Date createdOn, Date updatedOn) {
 		super();
 		this.userID = userID;
 		this.username = username;
@@ -44,19 +44,19 @@ public class UserDetails {
 		this.lastName = lastName;
 		this.password = password;
 		this.preferredLanguage = preferredLanguage;
-		this.EmailID = EmailID;
+		this.contactNo = contactNo;
 		CreatedOn = createdOn;
 		UpdatedOn = updatedOn;
 	}
 	
-	public UserDetails(int userID, String username, String firstName, String lastName, String preferredLanguage, String EmailID){
+	public UserDetails(int userID, String username, String firstName, String lastName, String preferredLanguage, String contactNo){
 		super();
 		this.userID = userID;
 		this.username = username;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.preferredLanguage = preferredLanguage;
-		this.EmailID = EmailID;
+		this.contactNo = contactNo;
 	}
 	
 
@@ -99,10 +99,10 @@ public class UserDetails {
 		this.preferredLanguage = preferredLanguage;
 	}
 	public String getContactNo() {
-		return EmailID;
+		return contactNo;
 	}
-	public void setContactNo(String EmailID) {
-		this.EmailID = EmailID;
+	public void setContactNo(String contactNo) {
+		this.contactNo = contactNo;
 	}
 	public Date getCreatedOn() {
 		return CreatedOn;
