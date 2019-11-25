@@ -25,7 +25,7 @@ $('#login-btn').on('click', function(e) {
 					setCookie('language', msg.preferredLanguage);
 					setCookie('firstName', msg.firstName);
 					setCookie('lastName', msg.lastName);
-					setCookie('EmailID', msg.EmailID);
+					setCookie('contactNo', msg.contactNo);
 					Swal.fire('Login Successful!', '','success')
 					.then((result) => {
 						if (result.value) {
