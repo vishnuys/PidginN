@@ -63,7 +63,7 @@ public class MessageController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	
-		simpMessagingTemplate.convertAndSend("/user/" + userIdInfo.getUsername() + "/queue/private", result);
+		simpMessagingTemplate.convertAndSend("/user/" + userIdInfo.getUsername() + "/queue/allmessages", result);
 	}
 	
 	@MessageMapping("/message")
@@ -193,9 +193,9 @@ public class MessageController {
 				String msg1 = (String)temp1[0];
 				String tran1 = (String)temp1[1];
 				
-				chatmsg.put("sender", senusername1);
-				chatmsg.put("receiver", recusername1);
-				chatmsg.put("message", msg1);
+				chatmsg.put("senderUserName", senusername1);
+				chatmsg.put("recieverUserName", recusername1);
+				chatmsg.put("userMessage", msg1);
 				chatmsg.put("translatedMessage", tran1);
 				threadno = (int)temp1[8];
 				chatmsg.put("threadno", threadno);
@@ -235,9 +235,9 @@ public class MessageController {
 			String msg = (String)o[0];
 			String tran = (String)o[1];
 			
-			chatmsg.put("sender", senusername);
-			chatmsg.put("receiver", recusername);
-			chatmsg.put("message", msg);
+			chatmsg.put("senderUserName", senusername);
+			chatmsg.put("recieverUserName", recusername);
+			chatmsg.put("userMessage", msg);
 			chatmsg.put("translatedMessage", tran);
 			threadno = (int)o[8];
 			ja.put(chatmsg);
@@ -278,7 +278,7 @@ public class MessageController {
 			// System.out.println("!");
 			jsonObj.put("language",(String)o[4]);
 			// System.out.println("!");
-			jsonObj.put("chatMessages", "[]");
+			jsonObj.put("chatMessages", new JSONArray());
 			// System.out.println("!");
 			FinalJson.put(jsonObj);
 		}

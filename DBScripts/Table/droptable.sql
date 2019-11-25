@@ -1,4 +1,3 @@
-
 DROP TABLE TranslatedMessage;
 DROP TABLE UserMessageMapping;
 DROP TABLE GroupMembers;
