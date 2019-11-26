@@ -73,7 +73,7 @@ app.controller('pidgin', ['$scope', '$http', function($scope, $http) {
 		$scope.$digest();
 		console.log(uname, $("#chatbox-"+uname).scrollTop())
 		$("#chatbox-"+uname).animate({
-			scrollTop : $("#chatbox-"+uname).scrollTop() + 1000
+			scrollTop : $("#chatbox-"+uname).scrollTop() + 10000
 		}, 1000);
 	}
 
@@ -90,10 +90,10 @@ app.controller('pidgin', ['$scope', '$http', function($scope, $http) {
 		if ($scope.connections.length > 0) {
 			$scope.selectedUser = $scope.connections[0];
 		}
-		$(".chatbox").animate({
-			scrollTop : $('.chatbox').scrollTop() + 1000
-		}, 1000);
 		$scope.$digest();
+		$(".chatbox").animate({
+			scrollTop : $('.chatbox').scrollTop() + 10000
+		}, 1000);
 	}
 
 	$scope.connect = function() {
