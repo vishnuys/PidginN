@@ -59,7 +59,8 @@ app.controller('pidgin', ['$scope', '$http', function($scope, $http) {
 	$scope.onMessage = function(messageJson) {
 		var index, uname;
 		var msgJson = JSON.parse(messageJson.body);
-		if($scope.selectedUser.username == msgJson.senderUserName) {
+		console.log(msgJson)
+		if($scope.loggedInUser.username == msgJson.senderUserName) {
 			index = $scope.getUserIndex(msgJson.recieverUserName);
 			uname = msgJson.recieverUserName;
 		}
@@ -67,6 +68,7 @@ app.controller('pidgin', ['$scope', '$http', function($scope, $http) {
 			index = $scope.getUserIndex(msgJson.senderUserName);
 			uname = msgJson.senderUserName;
 		}
+		console.log(index, uname);
 		$scope.connections[index].chatMessages.push(msgJson);
 		$scope.connections[index].lastMessage = msgJson.userMessage;
 		$scope.connections[index].lastUpdated = 'Today';
@@ -145,6 +147,7 @@ app.controller('pidgin', ['$scope', '$http', function($scope, $http) {
 				return i;
 			}
 		}
+		return -1;
 	};
 
 	$scope.addConnection = function() {
@@ -231,13 +234,14 @@ app.controller('pidgin', ['$scope', '$http', function($scope, $http) {
 		if ($scope.lang != lang) {
 			$http({
 				method: 'POST',
-				url: '',
+				url: '/updateuserlanguage',
 				data: {userID: $scope.loggedInUser.userID, preferredLanguage: lang}
 			})
 			.then((res)=>{
 				$scope.lang = lang;
 				$scope.loggedInUser.lang = lang;
 				setCookie('language', lang);
+				Swal.fire('Language changed successfully', '', 'success');
 			}, (err)=>{
 				console.error(err);
 			})
