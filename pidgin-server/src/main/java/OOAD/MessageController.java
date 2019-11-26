@@ -50,7 +50,13 @@ public class MessageController {
 	@MessageMapping("/chatroom")
 	@SendTo("/topic/chatroom")
 	public String broadcastToClients(String message, Principal principal) {
-		return message.toUpperCase() + " by user:" + principal.getName();
+		return message;
+	}
+	
+	@MessageMapping("/languagechange")
+	@SendTo("/topic/languagechange")
+	public languageChangeMessage languageChangeBroadcast(String language, Principal principal) {
+		return new languageChangeMessage(principal.getName(), language);
 	}
 	
 	@MessageMapping("/sendall")
@@ -60,7 +66,6 @@ public class MessageController {
 		try {
 			result = FetchMessagesForUser(userConn);
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	
 		simpMessagingTemplate.convertAndSend("/user/" + userIdInfo.getUsername() + "/queue/allmessages", result);
