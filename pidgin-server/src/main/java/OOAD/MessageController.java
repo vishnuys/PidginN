@@ -73,12 +73,14 @@ public class MessageController {
 		ObjectMapper mapper = new ObjectMapper();
 		SenderMessage sendm = mapper.readValue(messageJson, SenderMessage.class);
 		
-		String translatedMessage;
-		@SuppressWarnings("deprecation")
-		Translate translate = TranslateOptions.newBuilder().setApiKey("AIzaSyAiRYBhdm3LPeKeq-ClxWERz_vAMPcX2Rw").build().getService();
-		Translation translation = translate.translate(sendm.userMessage, TranslateOption.sourceLanguage(sendm.senderLang),
-				TranslateOption.targetLanguage(sendm.recieverLang));
-		translatedMessage = translation.getTranslatedText();
+		String translatedMessage = new String(sendm.userMessage);
+		if (sendm.recieverLang == sendm.senderLang) {
+			@SuppressWarnings("deprecation")
+			Translate translate = TranslateOptions.newBuilder().setApiKey("AIzaSyAiRYBhdm3LPeKeq-ClxWERz_vAMPcX2Rw").build().getService();
+			Translation translation = translate.translate(sendm.userMessage, TranslateOption.sourceLanguage(sendm.senderLang),
+					TranslateOption.targetLanguage(sendm.recieverLang));
+			translatedMessage = translation.getTranslatedText();
+		}
 		
 		Message msg = new Message();
 		msg.userMessageMapping = new UserMessageMapping(Integer.parseInt(sendm.senderUserID), Integer.parseInt(sendm.recieverUserID));
