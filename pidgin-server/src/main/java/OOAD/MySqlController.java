@@ -147,7 +147,7 @@ public class MySqlController {
 		
 	}
 	
-	@RequestMapping(method = RequestMethod.POST, value="/updateuserlangauge")
+	@RequestMapping(method = RequestMethod.POST, value="/updateuserlanguage")
 	public Boolean UpdateUserLangauage(@RequestBody UserDetails usr) {
 		StoredProcedureQuery query = entityManager.createStoredProcedureQuery("update_userlangauage"); 
 
