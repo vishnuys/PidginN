@@ -38,6 +38,13 @@ app.controller('pidgin', ['$scope', '$http', function($scope, $http) {
 		return "";
 	}
 
+	function setCookie(cname, cvalue, exdays=60) {
+		var d = new Date();
+		d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+		var expires = "expires="+d.toUTCString();
+		document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+	}
+
 	function deleteCookie(cname) {
 		document.cookie = cname + "=;expires=Thu; 01 Jan 1970";
 	}
@@ -50,17 +57,23 @@ app.controller('pidgin', ['$scope', '$http', function($scope, $http) {
 	};
 
 	$scope.onMessage = function(messageJson) {
+		var index, uname;
 		var msgJson = JSON.parse(messageJson.body);
 		if($scope.selectedUser.username == msgJson.senderUserName) {
-			var index = $scope.getUserIndex(msgJson.recieverUserName);
+			index = $scope.getUserIndex(msgJson.recieverUserName);
+			uname = msgJson.recieverUserName;
 		}
 		else {
-			var index = $scope.getUserIndex(msgJson.recieverUserName);
+			index = $scope.getUserIndex(msgJson.senderUserName);
+			uname = msgJson.senderUserName;
 		}
 		$scope.connections[index].chatMessages.push(msgJson);
 		$scope.connections[index].lastMessage = msgJson.userMessage;
 		$scope.connections[index].lastUpdated = 'Today';
 		$scope.$digest();
+		$("#chatbox-"+uname).animate({
+			scrollTop : $("#chatbox-"+uname).scrollTop()
+		}, 1000);
 	}
 
 	$scope.onFetchAllMessages = function(messageJson) {
@@ -76,6 +89,9 @@ app.controller('pidgin', ['$scope', '$http', function($scope, $http) {
 		if ($scope.connections.length > 0) {
 			$scope.selectedUser = $scope.connections[0];
 		}
+		$(".chatbox").animate({
+			scrollTop : $('.chatbox').scrollTop()
+		}, 1000);
 		$scope.$digest();
 	}
 
@@ -211,8 +227,21 @@ app.controller('pidgin', ['$scope', '$http', function($scope, $http) {
 		var win = open($scope.vKeyboard[$scope.lang], 'Virtual Keyboard');
 	}
 
-	$scope.print = function(msg) {
-		console.log(msg);
+	$scope.changeLanguage = function(lang) {
+		if ($scope.lang != lang) {
+			$http({
+				method: 'POST',
+				url: '',
+				data: {userID: $scope.loggedInUser.userID, preferredLanguage: lang}
+			})
+			.then((res)=>{
+				$scope.lang = lang;
+				$scope.loggedInUser.lang = lang;
+				setCookie('language', lang);
+			}, (err)=>{
+				console.error(err);
+			})
+		}
 	}
 
 	$scope.logout = function() {
