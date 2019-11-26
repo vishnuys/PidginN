@@ -147,6 +147,24 @@ public class MySqlController {
 		
 	}
 	
+	@RequestMapping(method = RequestMethod.POST, value="/updateuserlangauge")
+	public Boolean UpdateUserLangauage(@RequestBody UserDetails usr) {
+		StoredProcedureQuery query = entityManager.createStoredProcedureQuery("update_userlangauage"); 
+
+        //Declare the parameters in the same order
+        query.registerStoredProcedureParameter(1, Integer.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter(2, String.class, ParameterMode.IN);
+
+        //Pass the parameter values
+        query.setParameter(1, usr.getUserID());
+        query.setParameter(2, usr.getPreferredLanguage());
+
+        //Execute query
+        query.execute();
+		return true;
+		
+	}
+	
  
 	@RequestMapping(method = RequestMethod.POST, value="/addconnection")
 	public Boolean AddConnection(@RequestBody UserConnections usrcon) {
