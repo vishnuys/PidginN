@@ -64,7 +64,15 @@ app.controller('pidgin', ['$scope', '$http', function($scope, $http) {
 	}
 
 	$scope.onFetchAllMessages = function(messageJson) {
-		$scope.connections = JSON.parse(messageJson.body);
+		var msg = JSON.parse(messageJson.body);
+		for (var i in msg) {
+			var chatCount = msg[i].chatMessages.length;
+			if (chatCount > 0) {
+				msg[i]['lastMessage'] = msg[i].chatMessages[chatCount-1].userMessage;
+				msg[i]['lastUpdated'] = 'Some time ago';
+			}
+		}
+		$scope.connections = msg;
 		if ($scope.connections.length > 0) {
 			$scope.selectedUser = $scope.connections[0];
 		}

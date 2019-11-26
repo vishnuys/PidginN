@@ -5,6 +5,17 @@ function setCookie(cname, cvalue, exdays) {
 	document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }
 
+function handleEnterKey(event) {
+	var key = event.keyCode ? event.keyCode : event.which;
+	if (key == 13) {
+		event.preventDefault();
+		$('#login-btn').trigger('click');
+	}
+
+}
+
+$('#username, #password').on('keyup', handleEnterKey);
+
 $('#login-btn').on('click', function(e) {
 	var username = $("#username").val();
 	var password = $("#password").val();
