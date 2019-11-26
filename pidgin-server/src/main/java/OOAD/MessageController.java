@@ -74,7 +74,7 @@ public class MessageController {
 		SenderMessage sendm = mapper.readValue(messageJson, SenderMessage.class);
 		
 		String translatedMessage = new String(sendm.userMessage);
-		if (sendm.recieverLang == sendm.senderLang) {
+		if (sendm.recieverLang.equals(sendm.senderLang) == false) {
 			@SuppressWarnings("deprecation")
 			Translate translate = TranslateOptions.newBuilder().setApiKey("AIzaSyAiRYBhdm3LPeKeq-ClxWERz_vAMPcX2Rw").build().getService();
 			Translation translation = translate.translate(sendm.userMessage, TranslateOption.sourceLanguage(sendm.senderLang),
