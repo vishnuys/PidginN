@@ -59,7 +59,6 @@ app.controller('pidgin', ['$scope', '$http', function($scope, $http) {
 	$scope.onMessage = function(messageJson) {
 		var index, uname;
 		var msgJson = JSON.parse(messageJson.body);
-		console.log(msgJson)
 		if($scope.loggedInUser.username == msgJson.senderUserName) {
 			index = $scope.getUserIndex(msgJson.recieverUserName);
 			uname = msgJson.recieverUserName;
@@ -68,13 +67,13 @@ app.controller('pidgin', ['$scope', '$http', function($scope, $http) {
 			index = $scope.getUserIndex(msgJson.senderUserName);
 			uname = msgJson.senderUserName;
 		}
-		console.log(index, uname);
 		$scope.connections[index].chatMessages.push(msgJson);
 		$scope.connections[index].lastMessage = msgJson.userMessage;
 		$scope.connections[index].lastUpdated = 'Today';
 		$scope.$digest();
+		console.log(uname, $("#chatbox-"+uname).scrollTop())
 		$("#chatbox-"+uname).animate({
-			scrollTop : $("#chatbox-"+uname).scrollTop()
+			scrollTop : $("#chatbox-"+uname).scrollTop() + 1000
 		}, 1000);
 	}
 
@@ -92,7 +91,7 @@ app.controller('pidgin', ['$scope', '$http', function($scope, $http) {
 			$scope.selectedUser = $scope.connections[0];
 		}
 		$(".chatbox").animate({
-			scrollTop : $('.chatbox').scrollTop()
+			scrollTop : $('.chatbox').scrollTop() + 1000
 		}, 1000);
 		$scope.$digest();
 	}
