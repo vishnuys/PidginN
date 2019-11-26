@@ -1,6 +1,6 @@
 # Build target files
 target/
-Server/pidgin-server/.classpath/
+.classpath/
 application.properties
 
 # File system index files

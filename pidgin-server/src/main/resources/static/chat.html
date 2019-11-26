@@ -101,7 +101,7 @@
 													<i class="fa fa-keyboard-o"></i>
 												</a>
 											</div>
-											<input type="text" class="form-control send-text" placeholder="Enter message to send..." ng-model="messageToSend">
+											<input type="text" class="form-control send-text" placeholder="Enter message to send..." ng-model="messageToSend" ng-keyup="$event.keyCode === 13 && sendMessage(messageToSend)">
 											<div class="input-group-append">
 												<button class="btn btn-success px-2 px-md-4" type="button" id="send-btn"
 												ng-click="sendMessage(messageToSend)">Send</button>
