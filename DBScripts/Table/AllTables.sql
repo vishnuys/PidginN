@@ -1,4 +1,4 @@
--- create database pidgin;
+CREATE DATABASE IF NOT EXISTS pidgin ;
 -- drop table UserDetails; 
 --  drop table UserConnections
 USE pidgin;
@@ -10,8 +10,8 @@ CREATE TABLE  UserDetails (
   PasswordHash VARCHAR(500) NOT NULL,
   PreferedLanguage VARCHAR(50) NOT NULL,
   EmailID  VARCHAR(200) NOT NULL,
-  CreatedOn timestamp,
-  UpdatedOn timestamp
+  CreatedOn TIMESTAMP,
+  UpdatedOn TIMESTAMP
 );
 
 USE pidgin;
