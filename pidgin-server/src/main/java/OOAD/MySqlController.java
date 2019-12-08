@@ -59,29 +59,11 @@ public class MySqlController {
         	
         	
 			Object o[] = s.get(i);
-//			System.out.println("0 - " + o[0]);
-//			BigInteger abc= new BigInteger("0");
-//			BigInteger abc1= new BigInteger(o[0]);
-//			if(o[0] == abc) {
-//        		System.out.println("dskajdn");
-//        		usrdet = new UserDetails();
-//        		break;
-//        	}
-//			System.out.println("dsadbjasbd");
-//	        System.out.println("0 - " + o[0]);
-//	        System.out.println("1 - " + o[1]);
-//	        System.out.println("2 - " + o[2]);
-//	        System.out.println("3 - " + o[3]);
-//	        System.out.println("4 - " + o[4]);
-//	        System.out.println("5 - " + o[5]);
-
 
 			usrdet = new UserDetails();
 			if((int)o[0] == 0) {
 				break;
 			}
-			System.out.println("dajda");
-			
 			usrdet.setUserID((int)o[0]);
 			usrdet.setUsername((String)o[1]);
 			usrdet.setFirstName((String)o[2]);
@@ -189,11 +171,7 @@ public class MySqlController {
 		StoredProcedureQuery query = entityManager.createStoredProcedureQuery("savemessage"); 		
 	
 		TranslatedMessage translatedMessage = message.translatedMessage;
-//		TranslatedMessage translatedMessage = new TranslatedMessage();
-//		translatedMessage.setCultureCode(message.translatedMessage.getCultureCode());
-//		translatedMessage.setCultureCode(message.translatedMessage.getCultureCode());
 		
-		System.out.println(message.userMessageMapping.getIsDirectMessage());
 		UserMessageMapping userMessageMapping = message.userMessageMapping;
 		userMessageMapping.setSenderUserId(message.userMessageMapping.SenderUserId);
 		userMessageMapping.setRecieverUserId(message.userMessageMapping.RecieverUserId);
@@ -258,13 +236,11 @@ public class MySqlController {
 //		}
 
         query.registerStoredProcedureParameter(1, Integer.class, ParameterMode.IN);
-        System.out.println("kjiwjiwj " + inuserID);
         //Pass the parameter values
 //        int inuserID = userID;
         query.setParameter(1, inuserID);
         
         List<Object[]> s = query.getResultList();
-        System.out.print(s);
         List<UserDetails> lstusers = new ArrayList<UserDetails>();
         for (int i = 0; i < s.size(); i++) {
 			Object o[] = s.get(i);
@@ -299,25 +275,13 @@ public class MySqlController {
         JSONObject jsonObj = null;
         
         for (int i = 0; i < s.size(); i++) {
-        	System.out.println(" i = "+i);
         	jsonObj = new JSONObject();
 			Object o[] = s.get(i);
 			Object temp[] = s.get(i);
-	        System.out.println("1 0 - " + temp[0]);
-	        System.out.println("1 1 - " + temp[1]);
-	        System.out.println("1 2 - " + temp[2]);
-	        System.out.println("1 3 - " + temp[3]);
-	        System.out.println("1 4 - " + temp[4]);
-	        System.out.println("1 5 - " + temp[5]);
-	        System.out.println("1 6 - " + temp[6]);
-	        System.out.println("1 7 - " + temp[7]);
-	        System.out.println("1 8 - " + temp[8]);
-	        System.out.println("1 9 - " + temp[9]);
 
 			JSONObject chatmsg = new JSONObject();
 			//check logged in user logic username
 			
-			System.out.println("1");
 			if(o[9].toString().equals(o[6].toString())) {
 				jsonObj.put("username",(String)o[4]);
 				jsonObj.put("name",(String)o[5]);
@@ -352,22 +316,10 @@ public class MySqlController {
 			int threadno=(int)o[8];
 			threadno = (int)o[8];
 			ja.put(chatmsg);
-//			System.out.println("Modified Code");
 			for(j=i+1;j<s.size();j++) {
 				chatmsg = new JSONObject();
 				
-				System.out.println(" j = "+ j);
 				Object temp1[] = s.get(j);
-		        System.out.println("2 0 - " + temp1[0]);
-		        System.out.println("2 1 - " + temp1[1]);
-		        System.out.println("2 2 - " + temp1[2]);
-		        System.out.println("2 3 - " + temp1[3]);
-		        System.out.println("2 4 - " + temp1[4]);
-		        System.out.println("2 5 - " + temp1[5]);
-		        System.out.println("2 6 - " + temp1[6]);
-		        System.out.println("2 7 - " + temp1[7]);
-		        System.out.println("2 8 - " + temp1[8]);
-		        System.out.println("2 9 - " + temp1[9]);
 				if(threadno != (int)temp1[8]) {
 					break;
 				}
@@ -385,14 +337,12 @@ public class MySqlController {
 				chatmsg.put("translatedMessage", tran1);
 				threadno = (int)temp1[8];
 				chatmsg.put("threadno", threadno);
-				System.out.println(temp1.toString());
 				ja.put(chatmsg);
 				//jsonObj = new JSONObject();
 			}
 			
 			i = j-1;
 			o = s.get(i);
-//			System.out.println("after " + i);
 			
 			
 			jsonObj.put("chatMessages", ja);
@@ -412,17 +362,10 @@ public class MySqlController {
         
         List<Object[]> set1 = query1.getResultList();
         for (int i = 0; i < set1.size(); i++) {
-        	System.out.println("Insie for");
 			Object o[] = set1.get(i);
 			if(lstUseridWithMsgs.contains((String)o[1])) {
-				System.out.println("Insie if");
 				continue;
 			}
-	        System.out.println("3 0 - " + o[0]);
-	        System.out.println("3 1 - " + o[1]);
-	        System.out.println("3 2 - " + o[2]);
-	        System.out.println("3 3 - " + o[3]);
-	        System.out.println("3 4 - " + o[4]);
 			jsonObj = new JSONObject();
 			jsonObj.put("username",(String)o[1]);
 			jsonObj.put("name",(String)o[2]);
