@@ -1,6 +1,7 @@
 package OOAD;
 
 import java.io.IOException;
+import java.io.FileInputStream;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,6 +16,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -22,12 +24,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.client.RestTemplate;
 
+import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.translate.Translate;
 import com.google.cloud.translate.Translate.TranslateOption;
 import com.google.cloud.translate.TranslateOptions;
 import com.google.cloud.translate.Translation;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.google.common.collect.Lists;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -40,6 +44,9 @@ import OOAD.Entities.UserMessageMapping;
 
 @Controller
 public class MessageController {
+
+	@Value("${google.api.translation.jsonpath}")
+	private String jsonPath;
 	
 	@Autowired
 	private EntityManager entityManager;
@@ -53,11 +60,11 @@ public class MessageController {
 		return message;
 	}
 	
-	@MessageMapping("/languagechange")
-	@SendTo("/topic/languagechange")
-	public languageChangeMessage languageChangeBroadcast(String language, Principal principal) {
-		return new languageChangeMessage(principal.getName(), language);
-	}
+	// @MessageMapping("/languagechange")
+	// @SendTo("/topic/languagechange")
+	// public languageChangeMessage languageChangeBroadcast(String language, Principal principal) {
+	// 	return new languageChangeMessage(principal.getName(), language);
+	// }
 	
 	@MessageMapping("/sendall")
 	public void sendAllMessages(UserIdentityInfo userIdInfo, Principal principal) {		
@@ -80,8 +87,8 @@ public class MessageController {
 		
 		String translatedMessage = new String(sendm.userMessage);
 		if (sendm.recieverLang.equals(sendm.senderLang) == false) {
-			@SuppressWarnings("deprecation")
-			Translate translate = TranslateOptions.newBuilder().setApiKey("AIzaSyAiRYBhdm3LPeKeq-ClxWERz_vAMPcX2Rw").build().getService();
+			GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream(jsonPath)).createScoped(Lists.newArrayList("https://www.googleapis.com/auth/cloud-platform"));
+			Translate translate = TranslateOptions.newBuilder().setCredentials(credentials).build().getService();
 			Translation translation = translate.translate(sendm.userMessage, TranslateOption.sourceLanguage(sendm.senderLang),
 					TranslateOption.targetLanguage(sendm.recieverLang));
 			translatedMessage = translation.getTranslatedText();
@@ -106,7 +113,6 @@ public class MessageController {
 		
 		
 		TranslatedMessage translatedMessage = message.translatedMessage;
-//		System.out.println(message.userMessageMapping.getIsDirectMessage());
 		UserMessageMapping userMessageMapping = message.userMessageMapping;
 		userMessageMapping.setSenderUserId(message.userMessageMapping.SenderUserId);
 		userMessageMapping.setRecieverUserId(message.userMessageMapping.RecieverUserId);
@@ -153,7 +159,6 @@ public class MessageController {
         JSONObject jsonObj = null;
         
         for (int i = 0; i < s.size(); i++) {
-        	System.out.println(" i = "+i);
         	jsonObj = new JSONObject();
 			Object o[] = s.get(i);
 			Object temp[] = s.get(i);
@@ -198,7 +203,6 @@ public class MessageController {
 			for(j=i+1;j<s.size();j++) {
 				chatmsg = new JSONObject();
 				
-				System.out.println(" j = "+ j);
 				Object temp1[] = s.get(j);
 				if(threadno != (int)temp1[8]) {
 					break;
@@ -217,7 +221,6 @@ public class MessageController {
 				chatmsg.put("translatedMessage", tran1);
 				threadno = (int)temp1[8];
 				chatmsg.put("threadno", threadno);
-				System.out.println(temp1.toString());
 				ja.put(chatmsg);
 				//jsonObj = new JSONObject();
 			}
@@ -243,10 +246,8 @@ public class MessageController {
         
         List<Object[]> set1 = query1.getResultList();
         for (int i = 0; i < set1.size(); i++) {
-        	System.out.println("Insie for");
 			Object o[] = set1.get(i);
 			if(lstUseridWithMsgs.contains((String)o[1])) {
-				System.out.println("Insie if");
 				continue;
 			}
 			jsonObj = new JSONObject();
